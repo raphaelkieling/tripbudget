@@ -4,14 +4,12 @@ import { CATEGORIES, CATEGORY_KEYS, type CategoryKey } from '../../domain/catego
 import type { TripBudget } from '../../domain/budget'
 import type { Expense, ExpenseInput, Trip } from '../../domain/types'
 import { useDataStore } from '../../data/DataStoreContext'
+import { useI18n } from '../../i18n'
 import { clampDate, diffDays, todayISO } from '../../lib/date'
 import { cx } from '../../lib/cx'
 import { centsToInput, currencySymbol, formatMoney, parseMoney } from '../../lib/money'
 import { Button, ChoiceGroup, MoneyField, Sheet, Switch, TextField } from '../ui'
-import { plural } from './copy'
 import styles from './ExpenseFormSheet.module.css'
-
-const categoryOptions = CATEGORY_KEYS.map((key) => ({ value: key, ...CATEGORIES[key] }))
 
 export interface ExpenseFormSheetProps {
   open: boolean
@@ -27,6 +25,7 @@ export interface ExpenseFormSheetProps {
 export type ExpenseDraft = Partial<Pick<ExpenseInput, 'amount' | 'description' | 'category' | 'spread'>>
 
 export function ExpenseFormSheet({ open, trip, budget, expense, draft, onClose }: ExpenseFormSheetProps) {
+  const { t } = useI18n()
   const store = useDataStore()
   const formId = useId()
   const [saving, setSaving] = useState(false)
@@ -41,20 +40,20 @@ export function ExpenseFormSheet({ open, trip, budget, expense, draft, onClose }
     <Sheet
       open={open}
       onClose={onClose}
-      title={expense ? 'Edit bill' : 'Add a bill'}
+      title={expense ? t.expenseForm.editTitle : t.expenseForm.addTitle}
       footer={
         <>
           {expense ? (
             <Button variant="danger" icon={TrashIcon} onClick={handleDelete}>
-              Delete
+              {t.common.delete}
             </Button>
           ) : (
             <Button variant="secondary" onClick={onClose}>
-              Cancel
+              {t.common.cancel}
             </Button>
           )}
           <Button type="submit" form={formId} disabled={saving}>
-            {expense ? 'Save' : 'Add bill'}
+            {expense ? t.common.save : t.expenseForm.add}
           </Button>
         </>
       }
@@ -75,6 +74,7 @@ interface ExpenseFormProps {
 }
 
 function ExpenseForm({ id, trip, budget, expense, draft, onSavingChange, onSaved }: ExpenseFormProps) {
+  const { t } = useI18n()
   const store = useDataStore()
   const today = todayISO()
   const maxDate = today < trip.endDate ? today : trip.endDate
@@ -87,10 +87,11 @@ function ExpenseForm({ id, trip, budget, expense, draft, onSavingChange, onSaved
   const [submitted, setSubmitted] = useState(false)
 
   const amount = parseMoney(amountText)
-  const amountError = !amount ? 'Enter how much you paid' : undefined
+  const amountError = !amount ? t.expenseForm.amountRequired : undefined
   const spreadDays = diffDays(date, trip.endDate) + 1
   const canSpread = spreadDays > 1
   const isSpread = spread && canSpread
+  const categoryOptions = CATEGORY_KEYS.map((key) => ({ value: key, label: t.categories[key], ...CATEGORIES[key] }))
 
   // Preview how this bill changes what's left today.
   const todayBudget = budget.today
@@ -117,7 +118,7 @@ function ExpenseForm({ id, trip, budget, expense, draft, onSavingChange, onSaved
     <form id={id} className={styles.form} onSubmit={handleSubmit} noValidate>
       <MoneyField
         big
-        label="Amount"
+        label={t.expenseForm.amount}
         currencySymbol={currencySymbol(trip.currency)}
         value={amountText}
         onChange={(e) => setAmountText(e.target.value)}
@@ -127,60 +128,45 @@ function ExpenseForm({ id, trip, budget, expense, draft, onSavingChange, onSaved
 
       {leftAfter !== undefined && (
         <p className={cx(styles.impact, leftAfter < 0 && styles.over)}>
-          {leftAfter >= 0 ? (
-            <>
-              You&apos;ll still have <strong>{formatMoney(leftAfter, trip.currency)}</strong> for today
-            </>
-          ) : (
-            <>
-              That&apos;s <strong>{formatMoney(-leftAfter, trip.currency)}</strong> over today — it&apos;ll come out of the next days
-            </>
-          )}
+          {leftAfter >= 0
+            ? t.expenseForm.stillHave(<strong>{formatMoney(leftAfter, trip.currency)}</strong>)
+            : t.expenseForm.overToday(<strong>{formatMoney(-leftAfter, trip.currency)}</strong>)}
         </p>
       )}
       {isSpread && amount && (
         <p className={styles.impact}>
-          Each of the {plural(spreadDays, 'day')} gets <strong>{formatMoney(Math.trunc(amount / spreadDays), trip.currency)}</strong> less
+          {t.expenseForm.spreadImpact(spreadDays, <strong>{formatMoney(Math.trunc(amount / spreadDays), trip.currency)}</strong>)}
         </p>
       )}
 
-      <ChoiceGroup label="Category" options={categoryOptions} value={category} onChange={setCategory} />
+      <ChoiceGroup label={t.expenseForm.category} options={categoryOptions} value={category} onChange={setCategory} />
 
       <TextField
-        label="What was it?"
-        placeholder={`e.g. ${placeholders[category]}`}
+        label={t.expenseForm.whatWasIt}
+        placeholder={t.expenseForm.example(t.expenseForm.examples[category])}
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         maxLength={80}
       />
 
       <TextField
-        label="Day"
+        label={t.expenseForm.day}
         type="date"
         value={date}
         min={trip.startDate}
         max={maxDate}
         onChange={(e) => e.target.value && setDate(e.target.value)}
-        hint={isSpread ? 'Split from this day to the end of the trip' : 'Bills count against the day they happened'}
+        hint={isSpread ? t.expenseForm.hintSpread : t.expenseForm.hintDay}
       />
 
       {canSpread && (
         <Switch
-          label="Spread over the remaining days"
-          description={`For big purchases: split it equally over ${plural(spreadDays, 'day')} instead of taking it all from this day.`}
+          label={t.expenseForm.spreadLabel}
+          description={t.expenseForm.spreadDescription(spreadDays)}
           checked={spread}
           onChange={setSpread}
         />
       )}
     </form>
   )
-}
-
-const placeholders: Record<CategoryKey, string> = {
-  food: 'Ramen for lunch',
-  transport: 'Metro card',
-  stay: 'Hostel night',
-  fun: 'Museum tickets',
-  shopping: 'Souvenirs',
-  other: 'SIM card',
 }

@@ -9,19 +9,19 @@ import {
 } from '@phosphor-icons/react'
 import type { ToneKey } from './appearance'
 
+/** Labels live in the i18n dictionaries (`t.categories`). */
 export interface Category {
-  label: string
   icon: Icon
   tone: ToneKey
 }
 
 export const CATEGORIES = {
-  food: { label: 'Food', icon: ForkKnifeIcon, tone: 'coral' },
-  transport: { label: 'Transport', icon: BusIcon, tone: 'sky' },
-  stay: { label: 'Stay', icon: BedIcon, tone: 'violet' },
-  fun: { label: 'Fun', icon: TicketIcon, tone: 'pink' },
-  shopping: { label: 'Shopping', icon: ShoppingBagIcon, tone: 'sun' },
-  other: { label: 'Other', icon: SparkleIcon, tone: 'mint' },
+  food: { icon: ForkKnifeIcon, tone: 'coral' },
+  transport: { icon: BusIcon, tone: 'sky' },
+  stay: { icon: BedIcon, tone: 'violet' },
+  fun: { icon: TicketIcon, tone: 'pink' },
+  shopping: { icon: ShoppingBagIcon, tone: 'sun' },
+  other: { icon: SparkleIcon, tone: 'mint' },
 } as const satisfies Record<string, Category>
 
 export type CategoryKey = keyof typeof CATEGORIES

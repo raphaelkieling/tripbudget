@@ -1,4 +1,5 @@
 import { useId, type CSSProperties, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes } from 'react'
+import { useI18n } from '../../i18n'
 import { cx } from '../../lib/cx'
 import styles from './Field.module.css'
 
@@ -71,6 +72,7 @@ export function SelectField({ label, hint, error, className, id, options, ...sel
 export type MoneyFieldProps = TextFieldProps & { currencySymbol: string; big?: boolean }
 
 export function MoneyField({ currencySymbol, big, label, hint, error, className, id, ...input }: MoneyFieldProps) {
+  const { t } = useI18n()
   const autoId = useId()
   const fieldId = id ?? autoId
   return (
@@ -84,7 +86,7 @@ export function MoneyField({ currencySymbol, big, label, hint, error, className,
           className={cx(styles.control, error && styles.invalid)}
           inputMode="decimal"
           autoComplete="off"
-          placeholder="0.00"
+          placeholder={t.common.moneyPlaceholder}
           aria-invalid={!!error}
           aria-describedby={hint || error ? `${fieldId}-msg` : undefined}
           {...input}

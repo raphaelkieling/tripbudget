@@ -1,5 +1,6 @@
 import { XIcon } from '@phosphor-icons/react'
 import { useEffect, useId, useRef, type ReactNode } from 'react'
+import { useI18n } from '../../i18n'
 import { Button } from './Button'
 import styles from './Sheet.module.css'
 
@@ -16,6 +17,7 @@ export interface SheetProps {
  * Built on <dialog> for focus trapping, Esc to close and accessibility.
  */
 export function Sheet({ open, onClose, title, children, footer }: SheetProps) {
+  const { t } = useI18n()
   const ref = useRef<HTMLDialogElement>(null)
   const openRef = useRef(open)
   const titleId = useId()
@@ -46,7 +48,7 @@ export function Sheet({ open, onClose, title, children, footer }: SheetProps) {
               {title}
             </h2>
             <Button variant="ghost" size="sm" icon={XIcon} iconOnly onClick={onClose}>
-              Close
+              {t.common.close}
             </Button>
           </header>
           <div className={styles.body}>{children}</div>

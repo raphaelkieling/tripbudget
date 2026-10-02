@@ -1,3 +1,5 @@
+import { getIntlLocale } from '../i18n/locale'
+
 /**
  * Money is stored as integer minor units (cents) to avoid floating point
  * drift. Every currency uses 2 minor digits internally; formatting takes care
@@ -11,10 +13,11 @@ export type CurrencyCode = (typeof CURRENCIES)[number]
 const formatters = new Map<string, Intl.NumberFormat>()
 
 function formatter(currency: string, compact: boolean) {
-  const key = `${currency}:${compact}`
+  const locale = getIntlLocale()
+  const key = `${locale}:${currency}:${compact}`
   let f = formatters.get(key)
   if (!f) {
-    f = new Intl.NumberFormat(undefined, {
+    f = new Intl.NumberFormat(locale, {
       style: 'currency',
       currency,
       ...(compact ? { notation: 'compact', maximumFractionDigits: 1 } : {}),
@@ -63,7 +66,7 @@ export function guessCurrency(): CurrencyCode {
 
 export function currencySymbol(currency: string): string {
   return (
-    new Intl.NumberFormat(undefined, { style: 'currency', currency, currencyDisplay: 'narrowSymbol' })
+    new Intl.NumberFormat(getIntlLocale(), { style: 'currency', currency, currencyDisplay: 'narrowSymbol' })
       .formatToParts(0)
       .find((p) => p.type === 'currency')?.value ?? currency
   )

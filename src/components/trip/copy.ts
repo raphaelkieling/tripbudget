@@ -1,14 +1,13 @@
 import type { TripBudget } from '../../domain/budget'
+import type { Messages } from '../../i18n'
 
-export const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? '' : 's'}`
-
-export function phaseLabel(budget: TripBudget, daysUntilStart: number): string {
+export function phaseLabel(t: Messages, budget: TripBudget, daysUntilStart: number): string {
   switch (budget.phase) {
     case 'upcoming':
-      return daysUntilStart === 1 ? 'Tomorrow' : `In ${plural(daysUntilStart, 'day')}`
+      return daysUntilStart === 1 ? t.phase.tomorrow : t.phase.inDays(daysUntilStart)
     case 'active':
-      return budget.today ? `Day ${budget.today.dayNumber} of ${budget.totalDays}` : 'On the road'
+      return budget.today ? t.phase.dayOf(budget.today.dayNumber, budget.totalDays) : t.phase.onTheRoad
     case 'finished':
-      return 'Finished'
+      return t.phase.finished
   }
 }

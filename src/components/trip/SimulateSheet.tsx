@@ -3,11 +3,11 @@ import { useState } from 'react'
 import type { ToneKey } from '../../domain/appearance'
 import { simulatePurchase, type PurchaseSimulation, type PurchaseVerdict } from '../../domain/simulation'
 import type { Expense, Trip } from '../../domain/types'
+import { useI18n } from '../../i18n'
 import { cx } from '../../lib/cx'
 import type { ISODate } from '../../lib/date'
 import { currencySymbol, formatMoney, parseMoney } from '../../lib/money'
 import { Button, MoneyField, Sheet, TextField, toneVars } from '../ui'
-import { plural } from './copy'
 import type { ExpenseDraft } from './ExpenseFormSheet'
 import styles from './SimulateSheet.module.css'
 
@@ -23,6 +23,7 @@ export interface SimulateSheetProps {
 
 /** "What if I buy this?" — previews a purchase's impact without saving it. */
 export function SimulateSheet({ open, trip, expenses, today, onClose, onAddAsBill }: SimulateSheetProps) {
+  const { t } = useI18n()
   const [amountText, setAmountText] = useState('')
   const [description, setDescription] = useState('')
   const amount = parseMoney(amountText)
@@ -38,11 +39,11 @@ export function SimulateSheet({ open, trip, expenses, today, onClose, onAddAsBil
     <Sheet
       open={open}
       onClose={close}
-      title="What if I buy it?"
+      title={t.simulate.title}
       footer={
         <>
           <Button variant="secondary" onClick={close}>
-            Close
+            {t.common.close}
           </Button>
           {onAddAsBill && (
             <Button
@@ -54,7 +55,7 @@ export function SimulateSheet({ open, trip, expenses, today, onClose, onAddAsBil
                 setDescription('')
               }}
             >
-              Add as bill
+              {t.simulate.addAsBill}
             </Button>
           )}
         </>
@@ -63,15 +64,15 @@ export function SimulateSheet({ open, trip, expenses, today, onClose, onAddAsBil
       <div className={styles.content}>
         <MoneyField
           big
-          label="How much is it?"
+          label={t.simulate.howMuch}
           currencySymbol={currencySymbol(trip.currency)}
           value={amountText}
           onChange={(e) => setAmountText(e.target.value)}
           autoFocus
         />
         <TextField
-          label="What is it? (optional)"
-          placeholder="e.g. Leather jacket"
+          label={t.simulate.whatIsIt}
+          placeholder={t.simulate.placeholder}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           maxLength={80}
@@ -82,7 +83,7 @@ export function SimulateSheet({ open, trip, expenses, today, onClose, onAddAsBil
         ) : (
           <p className={styles.hint}>
             <FlaskIcon size={24} weight="duotone" aria-hidden />
-            Nothing is saved — just try an amount and see how it affects your days.
+            {t.simulate.hint}
           </p>
         )}
       </div>
@@ -90,25 +91,27 @@ export function SimulateSheet({ open, trip, expenses, today, onClose, onAddAsBil
   )
 }
 
-const verdicts: Record<PurchaseVerdict, { icon: Icon; tone?: ToneKey; title: string }> = {
-  easy: { icon: SmileyWinkIcon, tone: 'mint', title: 'Go for it!' },
-  manageable: { icon: ThumbsUpIcon, tone: 'sky', title: 'You’ll barely notice' },
-  'big-hit': { icon: WarningIcon, tone: 'sun', title: 'That’s a big hit' },
-  'over-budget': { icon: WarningOctagonIcon, title: 'Over your trip budget' },
+const verdicts: Record<PurchaseVerdict, { icon: Icon; tone?: ToneKey }> = {
+  easy: { icon: SmileyWinkIcon, tone: 'mint' },
+  manageable: { icon: ThumbsUpIcon, tone: 'sky' },
+  'big-hit': { icon: WarningIcon, tone: 'sun' },
+  'over-budget': { icon: WarningOctagonIcon },
 }
 
 function SimulationResult({ simulation: s, currency }: { simulation: PurchaseSimulation; currency: string }) {
+  const { t } = useI18n()
   const money = (cents: number) => formatMoney(cents, currency)
-  const { icon: VerdictIcon, tone, title } = verdicts[s.verdict]
+  const { icon: VerdictIcon, tone } = verdicts[s.verdict]
+  const title = t.simulate.verdicts[s.verdict]
   const isActive = s.todayLeftBefore !== undefined
   const nextDays = isActive ? s.daysAffected - 1 : s.daysAffected
 
   const message =
     s.verdict === 'over-budget'
-      ? `You’d end the trip ${money(-s.remainingAfter)} over budget.`
+      ? t.simulate.overBudget(money(-s.remainingAfter))
       : s.daysAffected === 1
-        ? `It all comes out of today.`
-        : `Split over ${plural(s.daysAffected, 'day')}${isActive ? ', today included' : ''}: each day gets ${money(s.perDayCut)} less (−${Math.round(s.dailyDrop * 100)}%).`
+        ? t.simulate.allToday
+        : t.simulate.splitOver(s.daysAffected, isActive, money(s.perDayCut), Math.round(s.dailyDrop * 100))
 
   return (
     <>
@@ -123,28 +126,29 @@ function SimulationResult({ simulation: s, currency }: { simulation: PurchaseSim
       </div>
 
       <div className={styles.compare}>
-        {isActive && <CompareRow label="Left for today" before={s.todayLeftBefore!} after={s.todayLeftAfter!} money={money} />}
+        {isActive && <CompareRow label={t.simulate.leftToday} before={s.todayLeftBefore!} after={s.todayLeftAfter!} money={money} />}
         {nextDays > 0 && (
           <CompareRow
-            label={isActive ? `Next ${plural(nextDays, 'day')}, per day` : 'Per day'}
+            label={isActive ? t.simulate.nextDaysPerDay(nextDays) : t.simulate.perDay}
             before={s.dailyBefore}
             after={s.dailyAfter}
             money={money}
           />
         )}
-        <CompareRow label="Trip budget left" before={s.remainingBefore} after={s.remainingAfter} money={money} />
+        <CompareRow label={t.simulate.tripLeft} before={s.remainingBefore} after={s.remainingAfter} money={money} />
       </div>
     </>
   )
 }
 
 function CompareRow({ label, before, after, money }: { label: string; before: number; after: number; money: (c: number) => string }) {
+  const { t } = useI18n()
   return (
     <div className={styles.row}>
       <span className={styles.rowLabel}>{label}</span>
       <span className={styles.values}>
         <span className={styles.before}>{money(before)}</span>
-        <ArrowRightIcon className={styles.arrow} size={14} weight="bold" aria-label="becomes" />
+        <ArrowRightIcon className={styles.arrow} size={14} weight="bold" aria-label={t.simulate.becomes} />
         <span className={cx(styles.after, after < 0 && styles.negative)}>{money(after)}</span>
       </span>
     </div>

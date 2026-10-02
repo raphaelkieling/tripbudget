@@ -1,3 +1,5 @@
+import { getIntlLocale } from '../i18n/locale'
+
 /** A calendar day in the user's local time, formatted as YYYY-MM-DD. */
 export type ISODate = string
 
@@ -48,7 +50,7 @@ export function clampDate(value: ISODate, min: ISODate, max: ISODate): ISODate {
 }
 
 export function formatDate(value: ISODate, options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short' }) {
-  return parseISODate(value).toLocaleDateString(undefined, options)
+  return parseISODate(value).toLocaleDateString(getIntlLocale(), options)
 }
 
 export function formatDateRange(start: ISODate, end: ISODate): string {

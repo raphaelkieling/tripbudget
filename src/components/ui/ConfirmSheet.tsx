@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { useI18n } from '../../i18n'
 import { Button } from './Button'
 import { Sheet } from './Sheet'
 
@@ -11,7 +12,8 @@ export interface ConfirmSheetProps {
   onClose: () => void
 }
 
-export function ConfirmSheet({ open, title, message, confirmLabel = 'Delete', onConfirm, onClose }: ConfirmSheetProps) {
+export function ConfirmSheet({ open, title, message, confirmLabel, onConfirm, onClose }: ConfirmSheetProps) {
+  const { t } = useI18n()
   return (
     <Sheet
       open={open}
@@ -20,10 +22,10 @@ export function ConfirmSheet({ open, title, message, confirmLabel = 'Delete', on
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>
-            Cancel
+            {t.common.cancel}
           </Button>
           <Button variant="danger" onClick={onConfirm}>
-            {confirmLabel}
+            {confirmLabel ?? t.common.delete}
           </Button>
         </>
       }

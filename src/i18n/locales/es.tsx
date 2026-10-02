@@ -1,0 +1,211 @@
+import type { ReactNode } from 'react'
+import type { Messages } from './en'
+
+const days = (n: number) => `${n} ${n === 1 ? 'día' : 'días'}`
+const bills = (n: number) => `${n} ${n === 1 ? 'gasto' : 'gastos'}`
+
+export const es: Messages = {
+  common: {
+    cancel: 'Cancelar',
+    close: 'Cerrar',
+    save: 'Guardar',
+    delete: 'Eliminar',
+    moneyPlaceholder: '0,00',
+  },
+  units: { days, bills },
+  theme: {
+    toDark: 'Cambiar a modo oscuro',
+    toLight: 'Cambiar a modo claro',
+  },
+  settings: {
+    open: 'Ajustes',
+    title: 'Ajustes',
+    language: 'Idioma',
+  },
+  phase: {
+    tomorrow: 'Mañana',
+    inDays: (n) => `En ${days(n)}`,
+    dayOf: (day, total) => `Día ${day} de ${total}`,
+    onTheRoad: 'De viaje',
+    finished: 'Terminado',
+  },
+  home: {
+    emptyTitle: '¿A dónde ahora?',
+    emptyText: 'Crea un viaje, define tu presupuesto y te diremos cuánto puedes gastar cada día.',
+    planFirst: 'Planear mi primer viaje',
+    activeTitle: '¡Disfruta el viaje!',
+    activeText: 'Esto es lo que puedes gastar hoy.',
+    idleTitle: '¿A dónde ahora?',
+    idleText: 'Planea un viaje y mantén tus gastos diarios bajo control.',
+    onTheRoad: 'De viaje',
+    comingUp: 'Próximamente',
+    past: 'Viajes pasados',
+    newTrip: 'Nuevo viaje',
+  },
+  notFound: {
+    title: '¿Te perdiste en el camino?',
+    text: 'Esta página no existe.',
+    back: 'Volver al inicio',
+  },
+  trip: {
+    back: 'Volver a los viajes',
+    notFoundTitle: 'Viaje no encontrado',
+    notFoundText: 'Puede que se haya eliminado.',
+    goHome: 'Ir al inicio',
+    edit: 'Editar viaje',
+    delete: 'Eliminar viaje',
+    simulate: 'Simular',
+    addBill: 'Añadir gasto',
+    startsIn: (n) => `Empieza en ${days(n)}`,
+    dayByDay: 'Día a día',
+    deleteTitle: '¿Eliminar este viaje?',
+    deleteMessage: (name) => `«${name}» y todos sus gastos se eliminarán de este dispositivo.`,
+  },
+  tripCard: {
+    leftToday: 'Queda para hoy',
+    spentToday: 'Gastado hoy',
+    dailyBudget: 'Presupuesto diario',
+    spentOf: (spent, total) => `Gastado ${spent} de ${total}`,
+    budgetUsed: 'Presupuesto usado',
+  },
+  hero: {
+    willSpend: 'Podrás gastar',
+    perDayFor: (n) => `por día, durante ${days(n)}`,
+    cameBackWith: 'Volviste con',
+    wentOverBy: 'Te pasaste por',
+    spentOf: (spent, total) => `Gastado ${spent} de ${total}`,
+    ringLabel: 'Presupuesto de hoy usado',
+    used: 'usado',
+    overToday: 'Hoy te pasaste por',
+    canSpendToday: 'Todavía puedes gastar hoy',
+    spentOfToday: (spent, total) => `${spent} de ${total} gastado`,
+    budgetGone: (amount) => `Se acabó el presupuesto — vas ${amount} por encima en el viaje`,
+    ifYouStop: (n: number, amount: ReactNode) => (
+      <>
+        Si paras ahora, los próximos {days(n)} tendrán {amount}/día
+      </>
+    ),
+  },
+  stats: {
+    budget: 'Presupuesto',
+    spent: 'Gastado',
+    left: 'Queda',
+    daysLeft: 'Días restantes',
+  },
+  timeline: {
+    yourDays: 'Tus días',
+    daysToGo: (n) => `Faltan ${days(n)}`,
+    day: 'Día',
+    dayLine: (n, date) => `Día ${n} · ${date}`,
+    today: 'Hoy',
+    left: (amount) => `${amount} restante`,
+    saved: (amount) => `${amount} ahorrado`,
+    over: (amount) => `${amount} de más`,
+    daySpending: (n) => `Gastos del día ${n}`,
+    noBillsToday: 'Aún no hay gastos hoy',
+    noSpending: 'Sin gastos — ¡bien!',
+  },
+  expenseRow: {
+    spreadOver: (n) => `Repartido en ${days(n)}`,
+  },
+  tripForm: {
+    editTitle: 'Editar viaje',
+    newTitle: 'Nuevo viaje',
+    create: 'Crear viaje',
+    nameRequired: 'Ponle un nombre a tu viaje',
+    endBeforeStart: 'La fecha final debe ser igual o posterior a la inicial',
+    budgetRequired: '¿Cuánto puedes gastar?',
+    nameLabel: '¿A dónde vas?',
+    namePlaceholder: 'p. ej. Tokio con amigos',
+    icon: 'Icono',
+    color: 'Color',
+    start: 'Inicio',
+    end: 'Fin',
+    totalBudget: 'Presupuesto total',
+    currency: 'Moneda',
+    perDayPreview: (amount: ReactNode, n: number) => (
+      <>
+        Eso es {amount} por día durante {days(n)}
+      </>
+    ),
+    icons: {
+      plane: 'Avión',
+      beach: 'Playa',
+      mountain: 'Montañas',
+      city: 'Ciudad',
+      camping: 'Camping',
+      cruise: 'Crucero',
+      train: 'Tren',
+      sightseeing: 'Turismo',
+    },
+    tones: {
+      violet: 'Morado',
+      pink: 'Rosa',
+      mint: 'Verde',
+      sun: 'Amarillo',
+      sky: 'Azul',
+      coral: 'Coral',
+    },
+  },
+  expenseForm: {
+    editTitle: 'Editar gasto',
+    addTitle: 'Añadir un gasto',
+    add: 'Añadir gasto',
+    amountRequired: 'Indica cuánto pagaste',
+    amount: 'Importe',
+    stillHave: (amount: ReactNode) => <>Todavía tendrás {amount} para hoy</>,
+    overToday: (amount: ReactNode) => <>Son {amount} de más hoy — saldrá de los próximos días</>,
+    spreadImpact: (n: number, amount: ReactNode) => (
+      <>
+        Cada uno de los {days(n)} tendrá {amount} menos
+      </>
+    ),
+    category: 'Categoría',
+    whatWasIt: '¿Qué fue?',
+    example: (text) => `p. ej. ${text}`,
+    day: 'Día',
+    hintSpread: 'Se reparte desde este día hasta el final del viaje',
+    hintDay: 'Los gastos cuentan en el día en que ocurrieron',
+    spreadLabel: 'Repartir entre los días restantes',
+    spreadDescription: (n) => `Para compras grandes: se reparte por igual entre ${days(n)} en lugar de salir todo de este día.`,
+    examples: {
+      food: 'Ramen para comer',
+      transport: 'Tarjeta de metro',
+      stay: 'Noche en el hostal',
+      fun: 'Entradas al museo',
+      shopping: 'Recuerdos',
+      other: 'Tarjeta SIM',
+    },
+  },
+  categories: {
+    food: 'Comida',
+    transport: 'Transporte',
+    stay: 'Alojamiento',
+    fun: 'Ocio',
+    shopping: 'Compras',
+    other: 'Otros',
+  },
+  simulate: {
+    title: '¿Y si lo compro?',
+    addAsBill: 'Añadir como gasto',
+    howMuch: '¿Cuánto cuesta?',
+    whatIsIt: '¿Qué es? (opcional)',
+    placeholder: 'p. ej. Chaqueta de cuero',
+    hint: 'No se guarda nada — prueba un importe y mira cómo afecta a tus días.',
+    verdicts: {
+      easy: '¡Adelante!',
+      manageable: 'Apenas lo notarás',
+      'big-hit': 'Es un golpe fuerte',
+      'over-budget': 'Supera el presupuesto del viaje',
+    },
+    overBudget: (amount) => `Terminarías el viaje ${amount} por encima del presupuesto.`,
+    allToday: 'Sale todo del día de hoy.',
+    splitOver: (n, includesToday, cut, percent) =>
+      `Repartido en ${days(n)}${includesToday ? ', hoy incluido' : ''}: cada día tendrá ${cut} menos (−${percent}%).`,
+    leftToday: 'Queda para hoy',
+    nextDaysPerDay: (n) => `Próximos ${days(n)}, por día`,
+    perDay: 'Por día',
+    tripLeft: 'Presupuesto restante',
+    becomes: 'pasa a',
+  },
+}

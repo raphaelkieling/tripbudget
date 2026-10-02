@@ -2,6 +2,7 @@ import type { Icon } from '@phosphor-icons/react'
 import type { ReactNode } from 'react'
 import { cx } from '../../lib/cx'
 import styles from './Page.module.css'
+import { SettingsButton } from './SettingsButton'
 import { ThemeToggle } from './ThemeToggle'
 
 export function Page({ children, className }: { children: ReactNode; className?: string }) {
@@ -16,6 +17,7 @@ export function TopBar({ leading, title, actions }: { leading?: ReactNode; title
       <div className={styles.actions}>
         {actions}
         <ThemeToggle />
+        <SettingsButton />
       </div>
     </header>
   )

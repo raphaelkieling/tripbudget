@@ -2,6 +2,8 @@
 
 Know exactly how much you can spend each day of your trip.
 
+**Open the app:** https://raphaelkieling.github.io/tripbudget/
+
 Create a trip with a start date, an end date and a total budget. TripBudget
 splits the budget into a daily allowance. Each bill you add comes out of the
 day it happened on. At the end of a day:

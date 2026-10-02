@@ -1,11 +1,12 @@
 import { ConfettiIcon, HourglassIcon, SunHorizonIcon, TrendDownIcon, TrendUpIcon, WarningIcon } from '@phosphor-icons/react'
 import type { TripBudget } from '../../domain/budget'
 import type { Trip } from '../../domain/types'
+import { useI18n } from '../../i18n'
 import { cx } from '../../lib/cx'
 import { diffDays, type ISODate } from '../../lib/date'
 import { formatMoney } from '../../lib/money'
 import { Badge, Card, ProgressRing, toneVars } from '../ui'
-import { phaseLabel, plural } from './copy'
+import { phaseLabel } from './copy'
 import styles from './TodayHero.module.css'
 
 export interface TodayHeroProps {
@@ -15,10 +16,11 @@ export interface TodayHeroProps {
 }
 
 export function TodayHero({ trip, budget, today }: TodayHeroProps) {
+  const { t } = useI18n()
   const money = (cents: number) => formatMoney(cents, trip.currency)
   const daysUntilStart = diffDays(today, trip.startDate)
   const tone = toneVars(trip.tone)
-  const badge = <Badge onHero>{phaseLabel(budget, daysUntilStart)}</Badge>
+  const badge = <Badge onHero>{phaseLabel(t, budget, daysUntilStart)}</Badge>
 
   if (budget.phase === 'upcoming') {
     return (
@@ -28,9 +30,9 @@ export function TodayHero({ trip, budget, today }: TodayHeroProps) {
           {badge}
         </div>
         <div className={styles.amountBlock}>
-          <span className={styles.caption}>You&apos;ll be able to spend</span>
+          <span className={styles.caption}>{t.hero.willSpend}</span>
           <span className={styles.amount}>{money(budget.baseDaily)}</span>
-          <span className={styles.sub}>per day, for {plural(budget.totalDays, 'day')}</span>
+          <span className={styles.sub}>{t.hero.perDayFor(budget.totalDays)}</span>
         </div>
       </Card>
     )
@@ -45,11 +47,9 @@ export function TodayHero({ trip, budget, today }: TodayHeroProps) {
           {badge}
         </div>
         <div className={styles.amountBlock}>
-          <span className={styles.caption}>{saved ? 'You came back with' : 'You went over by'}</span>
+          <span className={styles.caption}>{saved ? t.hero.cameBackWith : t.hero.wentOverBy}</span>
           <span className={styles.amount}>{money(Math.abs(budget.remaining))}</span>
-          <span className={styles.sub}>
-            Spent {money(budget.spent)} of {money(budget.budget)}
-          </span>
+          <span className={styles.sub}>{t.hero.spentOf(money(budget.spent), money(budget.budget))}</span>
         </div>
       </Card>
     )
@@ -67,16 +67,14 @@ export function TodayHero({ trip, budget, today }: TodayHeroProps) {
       </div>
 
       <div className={styles.main}>
-        <ProgressRing value={usedRatio} size={112} stroke={12} color="#fff" trackColor="rgb(255 255 255 / 0.25)" label="Today's budget used">
+        <ProgressRing value={usedRatio} size={112} stroke={12} color="#fff" trackColor="rgb(255 255 255 / 0.25)" label={t.hero.ringLabel}>
           <span className={styles.ringLabel}>{Math.round(Math.min(usedRatio, 9.99) * 100)}%</span>
-          <span className={styles.ringCaption}>used</span>
+          <span className={styles.ringCaption}>{t.hero.used}</span>
         </ProgressRing>
         <div className={styles.amountBlock}>
-          <span className={styles.caption}>{over ? 'Over today by' : 'You can still spend today'}</span>
+          <span className={styles.caption}>{over ? t.hero.overToday : t.hero.canSpendToday}</span>
           <span className={styles.amount}>{money(Math.abs(day.balance))}</span>
-          <span className={styles.sub}>
-            {money(day.spent)} of {money(day.allowance)} spent
-          </span>
+          <span className={styles.sub}>{t.hero.spentOfToday(money(day.spent), money(day.allowance))}</span>
         </div>
       </div>
 
@@ -90,13 +88,9 @@ export function TodayHero({ trip, budget, today }: TodayHeroProps) {
             <TrendUpIcon size={22} weight="bold" aria-hidden />
           )}
           <span>
-            {budget.nextDaily < 0 ? (
-              <>Budget is gone — you&apos;re {money(-budget.remaining)} over for the trip</>
-            ) : (
-              <>
-                If you stop now, the next {plural(budget.daysLeft - 1, 'day')} get <strong>{money(budget.nextDaily)}</strong>/day
-              </>
-            )}
+            {budget.nextDaily < 0
+              ? t.hero.budgetGone(money(-budget.remaining))
+              : t.hero.ifYouStop(budget.daysLeft - 1, <strong>{money(budget.nextDaily)}</strong>)}
           </span>
         </div>
       )}

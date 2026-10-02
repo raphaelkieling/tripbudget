@@ -5,11 +5,13 @@ import { TripCard, TripFormSheet } from '../components/trip'
 import { Button, EmptyState, Fab, Page, Section, TopBar } from '../components/ui'
 import { useToday, useTripsWithExpenses } from '../data/hooks'
 import type { Expense, Trip } from '../domain/types'
+import { useI18n } from '../i18n'
 import styles from './HomePage.module.css'
 
 type TripEntry = { trip: Trip; expenses: Expense[] }
 
 export function HomePage() {
+  const { t } = useI18n()
   const navigate = useNavigate()
   const today = useToday()
   const { data, loading } = useTripsWithExpenses()
@@ -48,40 +50,40 @@ export function HomePage() {
             { icon: IslandIcon, tone: 'mint' },
             { icon: CoinsIcon, tone: 'sun' },
           ]}
-          title="Where to next?"
-          text="Create a trip, set your budget and we'll tell you how much you can spend each day."
+          title={t.home.emptyTitle}
+          text={t.home.emptyText}
           action={
             <Button size="lg" icon={PlusIcon} onClick={() => setCreating(true)}>
-              Plan my first trip
+              {t.home.planFirst}
             </Button>
           }
         />
       ) : (
         <>
           <div className={styles.greeting}>
-            <h1>{active.length > 0 ? 'Enjoy the trip!' : 'Where to next?'}</h1>
-            <p>{active.length > 0 ? "Here's what you can spend today." : 'Plan a trip and keep your daily spending on track.'}</p>
+            <h1>{active.length > 0 ? t.home.activeTitle : t.home.idleTitle}</h1>
+            <p>{active.length > 0 ? t.home.activeText : t.home.idleText}</p>
           </div>
 
           {active.length > 0 && (
-            <Section title="On the road" icon={AirplaneTiltIcon}>
+            <Section title={t.home.onTheRoad} icon={AirplaneTiltIcon}>
               {renderGrid(active)}
             </Section>
           )}
           {upcoming.length > 0 && (
-            <Section title="Coming up" icon={CalendarCheckIcon}>
+            <Section title={t.home.comingUp} icon={CalendarCheckIcon}>
               {renderGrid(upcoming)}
             </Section>
           )}
           {past.length > 0 && (
-            <Section title="Past trips" icon={FlagCheckeredIcon}>
+            <Section title={t.home.past} icon={FlagCheckeredIcon}>
               {renderGrid(past)}
             </Section>
           )}
 
           <Fab>
             <Button size="lg" icon={PlusIcon} onClick={() => setCreating(true)}>
-              New trip
+              {t.home.newTrip}
             </Button>
           </Fab>
         </>
