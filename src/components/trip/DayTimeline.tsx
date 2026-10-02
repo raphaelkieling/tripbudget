@@ -20,6 +20,11 @@ export function DayTimeline({ trip, budget, onSelectExpense }: DayTimelineProps)
   const { t } = useI18n()
   const started = budget.days.filter((d) => d.status !== 'future').reverse()
   const future = budget.days.filter((d) => d.status === 'future')
+  const money = (cents: number) => formatMoney(cents, trip.currency)
+  // While the trip is active, future days show what they get if today's budget
+  // is spent exactly, plus how today's spending so far shifts that.
+  const expected = budget.expectedDaily
+  const shift = expected !== undefined && budget.nextDaily !== undefined ? budget.nextDaily - expected : 0
 
   return (
     <div className={styles.list}>
@@ -36,10 +41,22 @@ export function DayTimeline({ trip, budget, onSelectExpense }: DayTimelineProps)
               <CaretDownIcon className={styles.caret} size={18} weight="bold" aria-hidden />
             </summary>
             <div className={styles.upcomingList}>
+              {expected !== undefined && <p className={styles.upcomingNote}>{t.timeline.expectedNote}</p>}
               {future.map((day) => (
                 <div key={day.date} className={styles.upcomingRow}>
                   <span>{t.timeline.dayLine(day.dayNumber, formatDate(day.date, { weekday: 'short', day: 'numeric', month: 'short' }))}</span>
-                  <span>{formatMoney(day.allowance, trip.currency)}</span>
+                  <span className={styles.upcomingMoney}>
+                    <strong>{money(expected ?? day.allowance)}</strong>
+                    {shift !== 0 && (
+                      <>
+                        <span className={cx(styles.shift, shift < 0 && styles.shiftDown)}>
+                          {shift > 0 ? '+' : '−'}
+                          {money(Math.abs(shift))}
+                        </span>
+                        <span>= {money(day.allowance)}</span>
+                      </>
+                    )}
+                  </span>
                 </div>
               ))}
             </div>

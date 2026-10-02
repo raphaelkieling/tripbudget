@@ -46,6 +46,21 @@ describe('computeTripBudget', () => {
     expect(b.today?.balance).toBe(7_000)
     // If nothing else is spent today, the 70 left is spread over the 4 remaining days.
     expect(b.nextDaily).toBe(11_750)
+    // Using the rest of today's 100 keeps the next days at 100.
+    expect(b.expectedDaily).toBe(10_000)
+  })
+
+  it('projects the same for the next days once today is over budget', () => {
+    const b = computeTripBudget(trip, [bill('2026-05-01', 14_000)], '2026-05-01')
+    // 40 over today: both projections take it from the 4 remaining days.
+    expect(b.nextDaily).toBe(9_000)
+    expect(b.expectedDaily).toBe(9_000)
+  })
+
+  it('has no projection for the next days on the last day', () => {
+    const b = computeTripBudget(trip, [], '2026-05-05')
+    expect(b.nextDaily).toBeUndefined()
+    expect(b.expectedDaily).toBeUndefined()
   })
 
   it('spreads leftover money across the following days', () => {

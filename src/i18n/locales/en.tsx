@@ -111,6 +111,7 @@ export const en = {
     daySpending: (n: number) => `Day ${n} spending`,
     noBillsToday: 'No bills yet today',
     noSpending: 'No spending — nice!',
+    expectedNote: "What each day gets if you spend exactly today's budget. The badge shows how today's spending so far changes it.",
   },
   expenseRow: {
     spreadOver: (n: number) => `Spread over ${days(n)}`,

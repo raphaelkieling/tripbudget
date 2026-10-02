@@ -39,6 +39,12 @@ export interface TripBudget {
    * Undefined on the last day or after the trip.
    */
   nextDaily?: Cents
+  /**
+   * What each remaining day gets if you use all of today's allowance (or what
+   * you already spent, if that's more). Stays put while you spend within
+   * today's budget. Undefined on the last day or after the trip.
+   */
+  expectedDaily?: Cents
 }
 
 // `|| 0` normalises -0 so it never renders as "-$0.00".
@@ -53,8 +59,9 @@ const split = (amount: Cents, days: number): Cents => (days > 0 ? Math.trunc(amo
  *   allowance(d) = (budget - spentBefore(d) - spreadSince(d)) / daysFrom(d)
  *
  * So money left over at the end of a day is spread across the following days,
- * and overspending is taken from them. Days after today are a projection that
- * assumes no more spending today: they share what is left equally.
+ * and overspending is taken from them. Days after today share what is left
+ * equally, projected two ways: `nextDaily` assumes no more spending today,
+ * `expectedDaily` assumes today's allowance gets fully used.
  *
  * Spread bills (big purchases) don't hit their day: from their date on they
  * reduce the pool, so every remaining day pays an equal share.
@@ -115,5 +122,9 @@ export function computeTripBudget(trip: Trip, expenses: Expense[], today: ISODat
     days,
     today: todayBudget,
     nextDaily: todayBudget ? futureDaily : undefined,
+    expectedDaily:
+      todayBudget && futureDays > 0
+        ? split(trip.budget - spent - Math.max(todayBudget.balance, 0), futureDays)
+        : undefined,
   }
 }

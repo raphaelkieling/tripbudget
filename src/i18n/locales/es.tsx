@@ -104,6 +104,7 @@ export const es: Messages = {
     daySpending: (n) => `Gastos del día ${n}`,
     noBillsToday: 'Aún no hay gastos hoy',
     noSpending: 'Sin gastos — ¡bien!',
+    expectedNote: 'Lo que recibe cada día si gastas exactamente el presupuesto de hoy. La etiqueta muestra cuánto lo cambia lo que llevas gastado hoy.',
   },
   expenseRow: {
     spreadOver: (n) => `Repartido en ${days(n)}`,
