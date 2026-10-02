@@ -1,0 +1,23 @@
+.card {
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+}
+
+.muted {
+  background: var(--color-surface-muted);
+  box-shadow: none;
+}
+
+/* Solid tone color; set --tone with toneVars() to match the trip. */
+.hero {
+  background: var(--tone, var(--color-primary));
+  color: var(--color-on-primary);
+  border: 0;
+  box-shadow: var(--shadow-lg);
+}
+
+.pad-sm { padding: var(--space-3); }
+.pad-md { padding: var(--space-5); }
+.pad-lg { padding: var(--space-6); }

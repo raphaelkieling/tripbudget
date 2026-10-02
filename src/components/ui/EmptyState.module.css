@@ -1,0 +1,39 @@
+.empty {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: var(--space-10) var(--space-6);
+  text-align: center;
+}
+
+.icons {
+  position: relative;
+  width: 150px;
+  height: 110px;
+  margin-bottom: var(--space-2);
+}
+
+.icons > * {
+  position: absolute;
+  animation: float 4s ease-in-out infinite;
+}
+.icons > :nth-child(1) { left: 30px; top: 10px; z-index: 1; }
+.icons > :nth-child(2) { left: 0; top: 56px; transform: rotate(-12deg); animation-delay: -1.3s; }
+.icons > :nth-child(3) { right: 0; top: 50px; transform: rotate(10deg); animation-delay: -2.6s; }
+
+.title {
+  font-size: var(--text-xl);
+}
+
+.text {
+  max-width: 34ch;
+  color: var(--color-ink-soft);
+}
+
+.action {
+  margin-top: var(--space-3);
+}
+
+@keyframes float {
+  50% { translate: 0 -8px; }
+}

@@ -1,0 +1,29 @@
+.ring {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+.track {
+  stroke: var(--ring-track, var(--color-surface-muted));
+}
+
+.value {
+  stroke: var(--ring-color, var(--color-primary));
+  stroke-linecap: round;
+  transition: stroke-dashoffset 600ms var(--ease-out);
+}
+
+.center {
+  position: relative;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}

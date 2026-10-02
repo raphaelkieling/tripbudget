@@ -1,0 +1,124 @@
+/*
+ * TripBudget design tokens.
+ * Every color, radius, shadow and font in the app comes from here, so the
+ * whole look can be re-themed by editing this one file.
+ */
+:root {
+  /* Typography */
+  --font-display: 'Fredoka Variable', 'Nunito Variable', system-ui, sans-serif;
+  --font-body: 'Nunito Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: 2.25rem;
+  --text-hero: clamp(2.5rem, 9vw, 3.5rem);
+
+  /* Spacing (4px grid) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+
+  /* Shape */
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 26px;
+  --radius-xl: 34px;
+  --radius-pill: 999px;
+
+  /* Surfaces & ink */
+  --color-bg: #fff7f0;
+  --color-bg-blob-1: #ffe5ef;
+  --color-bg-blob-2: #e6e0ff;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f7f3ff;
+  --color-border: #ece6fb;
+  --color-ink: #2b2250;
+  --color-ink-soft: #6e6790;
+  --color-ink-faint: #a9a3c4;
+  --color-on-primary: #ffffff;
+  /* Pure black/white, for elements that should pop against tinted surfaces. */
+  --color-contrast: #000000;
+
+  /* Brand */
+  --color-primary: #7c5cff;
+  --color-primary-strong: #6243f5;
+  --color-primary-soft: #eee9ff;
+
+  /* Feedback */
+  --color-success: #1fae8a;
+  --color-success-soft: #ddf7ef;
+  --color-danger: #f2496b;
+  --color-danger-soft: #ffe3e9;
+  --color-warning: #f59e0b;
+
+  /* Tones: used for categories, trip covers and icon bubbles */
+  --tone-violet: #7c5cff;
+  --tone-violet-soft: #eee9ff;
+  --tone-pink: #ff5c9a;
+  --tone-pink-soft: #ffe5ef;
+  --tone-mint: #1fbf95;
+  --tone-mint-soft: #ddf7ef;
+  --tone-sun: #f5a300;
+  --tone-sun-soft: #fff1d3;
+  --tone-sky: #2f9bff;
+  --tone-sky-soft: #e0f1ff;
+  --tone-coral: #ff6b4a;
+  --tone-coral-soft: #ffe6de;
+
+  /* Elevation */
+  --shadow-sm: 0 2px 6px -2px rgb(60 40 140 / 0.12);
+  --shadow-md: 0 10px 28px -14px rgb(60 40 140 / 0.35);
+  --shadow-lg: 0 24px 48px -20px rgb(60 40 140 / 0.45);
+  --shadow-primary: 0 12px 24px -10px rgb(124 92 255 / 0.65);
+
+  /* Motion */
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 140ms;
+  --duration-base: 240ms;
+
+  /* Layout */
+  --content-width: 1120px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  color-scheme: light;
+}
+
+/* Applied via <html data-theme>, see src/lib/theme.ts. */
+:root[data-theme='dark'] {
+  --color-bg: #15112b;
+  --color-bg-blob-1: #2a1a3d;
+  --color-bg-blob-2: #1f1b4a;
+  --color-surface: #1f1940;
+  --color-surface-muted: #2a2352;
+  --color-border: #342c63;
+  --color-ink: #f4f1ff;
+  --color-ink-soft: #b7afdc;
+  --color-ink-faint: #7a72a6;
+  --color-contrast: #ffffff;
+
+  --color-primary-soft: #2f2667;
+  --color-success-soft: #123d36;
+  --color-danger-soft: #45192a;
+
+  --tone-violet-soft: #2f2667;
+  --tone-pink-soft: #45193a;
+  --tone-mint-soft: #123d36;
+  --tone-sun-soft: #3d2f12;
+  --tone-sky-soft: #142f4f;
+  --tone-coral-soft: #45221a;
+
+  --shadow-md: 0 10px 28px -14px rgb(0 0 0 / 0.6);
+  --shadow-lg: 0 24px 48px -20px rgb(0 0 0 / 0.7);
+
+  color-scheme: dark;
+}

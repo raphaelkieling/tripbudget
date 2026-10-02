@@ -1,0 +1,21 @@
+.form {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.impact {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-ink-soft);
+}
+
+.impact strong {
+  color: var(--color-ink);
+}
+
+.impact.over strong {
+  color: var(--color-danger);
+}

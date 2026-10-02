@@ -1,0 +1,126 @@
+.list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.day {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.dayHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.dayNum {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 2px;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: var(--tone-soft);
+  color: var(--tone);
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.dayNum small {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.8;
+}
+
+.dayTitle {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+}
+
+.dayTitle strong {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.dayTitle span {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-ink-faint);
+}
+
+.dayMoney {
+  text-align: right;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.dayMoney strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--color-success);
+}
+
+.dayMoney .negative {
+  color: var(--color-danger);
+}
+
+.expenses {
+  display: grid;
+  margin: 0 calc(var(--space-2) * -1);
+}
+
+.noBills {
+  font-size: var(--text-sm);
+  color: var(--color-ink-faint);
+  padding-left: calc(46px + var(--space-3));
+}
+
+.upcoming summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  cursor: pointer;
+  list-style: none;
+  font-weight: 700;
+  color: var(--color-ink-soft);
+}
+
+.upcoming summary::-webkit-details-marker {
+  display: none;
+}
+
+.upcoming summary .caret {
+  margin-left: auto;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.upcoming[open] summary .caret {
+  transform: rotate(180deg);
+}
+
+.upcomingList {
+  display: grid;
+  gap: var(--space-2);
+  padding: 0 var(--space-5) var(--space-5);
+}
+
+.upcomingRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-ink-soft);
+  font-variant-numeric: tabular-nums;
+}
