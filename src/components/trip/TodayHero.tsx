@@ -1,4 +1,5 @@
-import { ConfettiIcon, HourglassIcon, SunHorizonIcon, TrendDownIcon, TrendUpIcon, WarningIcon } from '@phosphor-icons/react'
+import { ConfettiIcon, HourglassIcon, TrendDownIcon, TrendUpIcon, WarningIcon } from '@phosphor-icons/react'
+import { TRIP_ICONS } from '../../domain/appearance'
 import type { TripBudget } from '../../domain/budget'
 import type { Trip } from '../../domain/types'
 import { useI18n } from '../../i18n'
@@ -56,13 +57,14 @@ export function TodayHero({ trip, budget, today }: TodayHeroProps) {
   }
 
   const { today: day } = budget
+  const TripIcon = TRIP_ICONS[trip.icon]
   const over = day.balance < 0
   const usedRatio = day.allowance > 0 ? day.spent / day.allowance : 1
 
   return (
     <Card variant="hero" padding="lg" className={styles.hero} style={tone}>
       <div className={styles.top}>
-        <SunHorizonIcon size={32} weight="duotone" aria-hidden />
+        <TripIcon size={32} weight="duotone" aria-hidden />
         {badge}
       </div>
 
