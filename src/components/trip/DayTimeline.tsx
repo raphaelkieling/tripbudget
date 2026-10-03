@@ -45,7 +45,7 @@ export function DayTimeline({ trip, budget, onSelectExpense }: DayTimelineProps)
               {expected !== undefined && <p className={styles.upcomingNote}>{t.timeline.expectedNote}</p>}
               {future.map((day) => (
                 <div key={day.date} className={styles.upcomingRow}>
-                  <span>{t.timeline.dayLine(day.dayNumber, formatDate(day.date, { weekday: 'short', day: 'numeric', month: 'short' }))}</span>
+                  <span className={styles.upcomingDay}>{t.timeline.dayLine(day.dayNumber, formatDate(day.date, { weekday: 'short', day: '2-digit', month: '2-digit' }))}</span>
                   <span className={styles.upcomingMoney}>
                     <strong>{money(expected ?? day.allowance)}</strong>
                     {shift !== 0 && (
@@ -72,7 +72,7 @@ function DayCard({ day, trip, onSelectExpense }: { day: DayBudget; trip: Trip; o
   const date = formatDate(day.date, { weekday: 'long', day: 'numeric', month: 'short' })
 
   return (
-    <Card className={styles.day} style={toneVars(isToday ? trip.tone : 'violet')}>
+    <Card className={styles.day} style={toneVars(isToday ? trip.tone : 'accent')}>
       <div className={styles.dayHead}>
         <span className={styles.dayNum}>
           <small>{t.timeline.day}</small>
@@ -93,7 +93,7 @@ function DayCard({ day, trip, onSelectExpense }: { day: DayBudget; trip: Trip; o
         </span>
       </div>
 
-      <ProgressBar value={day.allowance > 0 ? day.spent / day.allowance : day.spent > 0 ? 2 : 0} tone={isToday ? trip.tone : 'violet'} label={t.timeline.daySpending(day.dayNumber)} />
+      <ProgressBar value={day.allowance > 0 ? day.spent / day.allowance : day.spent > 0 ? 2 : 0} tone={isToday ? trip.tone : 'accent'} label={t.timeline.daySpending(day.dayNumber)} />
 
       {day.expenses.length > 0 ? (
         <div className={styles.expenses}>

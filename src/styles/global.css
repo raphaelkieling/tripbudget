@@ -8,7 +8,9 @@
   box-sizing: border-box;
 }
 
+/* Solid (no gradients) so overscroll and the browser chrome match the page. */
 html {
+  background: var(--color-bg);
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
 }
@@ -20,11 +22,7 @@ body {
   font-size: var(--text-md);
   line-height: 1.5;
   color: var(--color-ink);
-  background:
-    radial-gradient(60vmax 40vmax at 100% -10%, var(--color-bg-blob-1), transparent 70%),
-    radial-gradient(50vmax 40vmax at -10% 10%, var(--color-bg-blob-2), transparent 70%),
-    var(--color-bg);
-  background-attachment: fixed;
+  background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
 }
 

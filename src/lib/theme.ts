@@ -1,5 +1,4 @@
 import { useSyncExternalStore } from 'react'
-import { createStoredValue } from './storedValue'
 
 export type Theme = 'light' | 'dark'
 
@@ -22,8 +21,15 @@ function currentTheme(): Theme {
   return storedTheme() ?? (systemDark.matches ? 'dark' : 'light')
 }
 
+/** Browser chrome (status/address bar) takes the page background, resolved from the tokens. */
+function syncThemeColor() {
+  const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')
+  if (meta) meta.content = getComputedStyle(document.documentElement).backgroundColor
+}
+
 function apply() {
   document.documentElement.dataset.theme = currentTheme()
+  syncThemeColor()
   listeners.forEach((listener) => listener())
 }
 
@@ -39,6 +45,7 @@ export function setTheme(theme: Theme) {
     // Private mode etc.: the choice just won't survive a reload.
   }
   document.documentElement.dataset.theme = theme
+  syncThemeColor()
   listeners.forEach((listener) => listener())
 }
 
@@ -53,36 +60,6 @@ export function useTheme(): [Theme, (theme: Theme) => void] {
 }
 
 apply()
+// Stylesheets may not be applied yet while modules load; resolve the color once they are.
+requestAnimationFrame(syncThemeColor)
 
-/** Color palettes, combined with light/dark. Colors live in tokens.css. */
-export const PALETTES = ['violet', 'ocean', 'teal', 'forest', 'sunset', 'rose', 'cherry', 'amber', 'graphite', 'cocoa'] as const
-export type Palette = (typeof PALETTES)[number]
-
-/** Each palette's primary color, for the picker swatches. Keep in sync with tokens.css. */
-export const PALETTE_COLORS: Record<Palette, string> = {
-  violet: '#7c5cff',
-  ocean: '#2563eb',
-  teal: '#0e8f9a',
-  forest: '#24884d',
-  sunset: '#e8590c',
-  rose: '#e0317a',
-  cherry: '#d6293e',
-  amber: '#b7791f',
-  graphite: '#4b5563',
-  cocoa: '#8b5e3c',
-}
-
-/** Must match the inline script in index.html. */
-const palette = createStoredValue<Palette>(
-  'tripbudget-palette',
-  (raw) => (PALETTES.includes(raw as Palette) ? (raw as Palette) : null),
-  'violet',
-)
-
-const applyPalette = () => {
-  document.documentElement.dataset.palette = palette.get()
-}
-palette.subscribe(applyPalette)
-applyPalette()
-
-export const usePalette = palette.use

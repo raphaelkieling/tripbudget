@@ -1,13 +1,13 @@
 import { PencilSimpleIcon, type Icon } from '@phosphor-icons/react'
 import type { ReactNode } from 'react'
-import type { ToneKey } from '../../domain/appearance'
 import { cx } from '../../lib/cx'
 import { IconBubble } from './IconBubble'
 import styles from './Stat.module.css'
+import type { Tone } from './tone'
 
 export interface StatProps {
   icon: Icon
-  tone?: ToneKey
+  tone?: Tone
   label: string
   value: ReactNode
   negative?: boolean

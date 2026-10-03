@@ -22,7 +22,7 @@ export function BudgetStats({ budget, onEditRemaining }: BudgetStatsProps) {
   return (
     <Card padding="lg">
       <div className={styles.grid}>
-        <Stat icon={WalletIcon} tone="violet" label={t.stats.budget} value={money(budget.budget)} />
+        <Stat icon={WalletIcon} tone="accent" label={t.stats.budget} value={money(budget.budget)} />
         <Stat icon={ReceiptIcon} tone="coral" label={t.stats.spent} value={money(budget.spent)} />
         <Stat
           icon={PiggyBankIcon}

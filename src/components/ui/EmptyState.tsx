@@ -1,12 +1,12 @@
 import type { Icon } from '@phosphor-icons/react'
 import type { ReactNode } from 'react'
-import type { ToneKey } from '../../domain/appearance'
 import { IconBubble } from './IconBubble'
 import styles from './EmptyState.module.css'
+import type { Tone } from './tone'
 
 export interface EmptyStateProps {
   /** One to three icons shown as a floating cluster. */
-  icons: Array<{ icon: Icon; tone: ToneKey }>
+  icons: Array<{ icon: Icon; tone: Tone }>
   title: string
   text?: ReactNode
   action?: ReactNode
