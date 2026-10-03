@@ -63,9 +63,12 @@ describe('computeTripBudget', () => {
     const lower = computeTripBudget(trip, [adjust(8_000)], '2026-05-02')
     expect(lower.remaining).toBe(42_000)
     expect(lower.today?.allowance).toBe(10_500) // (500 − 80) / 4
-    const higher = computeTripBudget(trip, [adjust(-4_000)], '2026-05-02')
-    expect(higher.remaining).toBe(54_000)
-    expect(higher.today?.allowance).toBe(13_500) // (500 + 40) / 4
+    const higher = computeTripBudget(trip, [bill('2026-05-01', 1_000), adjust(-4_000)], '2026-05-02')
+    expect(higher.remaining).toBe(53_000)
+    // Money back raises the budget instead of hiding what was spent.
+    expect(higher.budget).toBe(54_000)
+    expect(higher.spent).toBe(1_000)
+    expect(higher.today?.allowance).toBe(13_250) // (500 − 10 + 40) / 4
   })
 
   it('has no projection for the next days on the last day', () => {

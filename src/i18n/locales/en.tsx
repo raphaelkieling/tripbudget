@@ -96,6 +96,8 @@ export const en = {
     budgetGone: (amount: string) => `Budget is gone — you're ${amount} over for the trip`,
   },
   stats: {
+    title: 'Budget summary',
+    budgetUsed: (percent: number) => `${percent}% of the budget used`,
     budget: 'Budget',
     spent: 'Spent',
     left: 'Left',

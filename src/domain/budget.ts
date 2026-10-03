@@ -25,7 +25,9 @@ export interface TripBudget {
   totalDays: number
   /** Days still to go including today (equals totalDays before the trip). */
   daysLeft: number
+  /** The trip budget plus any money that came back in through balance adjustments. */
   budget: Cents
+  /** Everything that went out: bills and adjustments for money that left untracked. */
   spent: Cents
   /** budget - spent. Negative means the whole trip is over budget. */
   remaining: Cents
@@ -105,7 +107,10 @@ export function computeTripBudget(trip: Trip, expenses: Expense[], today: ISODat
     return { date, dayNumber: index + 1, status, allowance, spent, balance: allowance - spent, expenses: dayExpenses }
   })
 
-  const spent = spentBefore + spreadTotal
+  // Adjustments for money that came back (negative amounts) raise the budget
+  // rather than lowering what was spent.
+  const moneyIn = -sum(expenses.filter((e) => e.amount < 0))
+  const netSpent = spentBefore + spreadTotal
   const phase: TripPhase = today < trip.startDate ? 'upcoming' : today > trip.endDate ? 'finished' : 'active'
   const daysLeft =
     phase === 'upcoming' ? totalDays : phase === 'finished' ? 0 : diffDays(today, trip.endDate) + 1
@@ -115,16 +120,16 @@ export function computeTripBudget(trip: Trip, expenses: Expense[], today: ISODat
     phase,
     totalDays,
     daysLeft,
-    budget: trip.budget,
-    spent,
-    remaining: trip.budget - spent,
+    budget: trip.budget + moneyIn,
+    spent: netSpent + moneyIn,
+    remaining: trip.budget - netSpent,
     baseDaily: split(trip.budget, totalDays),
     days,
     today: todayBudget,
     nextDaily: todayBudget ? futureDaily : undefined,
     expectedDaily:
       todayBudget && futureDays > 0
-        ? split(trip.budget - spent - Math.max(todayBudget.balance, 0), futureDays)
+        ? split(trip.budget - netSpent - Math.max(todayBudget.balance, 0), futureDays)
         : undefined,
   }
 }

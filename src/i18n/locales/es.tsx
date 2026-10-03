@@ -89,6 +89,8 @@ export const es: Messages = {
     budgetGone: (amount) => `Se acabó el presupuesto — vas ${amount} por encima en el viaje`,
   },
   stats: {
+    title: 'Resumen del presupuesto',
+    budgetUsed: (percent) => `${percent}% del presupuesto usado`,
     budget: 'Presupuesto',
     spent: 'Gastado',
     left: 'Queda',
