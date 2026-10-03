@@ -8,11 +8,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <title>TripBudget</title>
     <script>
-      // Apply the saved theme before first paint (kept in sync with src/lib/theme.ts).
+      // Apply the saved theme and palette before first paint (kept in sync with src/lib/theme.ts).
       try {
         var t = localStorage.getItem('tripbudget-theme')
         if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
         document.documentElement.dataset.theme = t
+        document.documentElement.dataset.palette = localStorage.getItem('tripbudget-palette') || 'violet'
       } catch (e) {}
     </script>
   </head>

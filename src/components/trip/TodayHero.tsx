@@ -5,10 +5,10 @@ import type { Trip } from '../../domain/types'
 import { useI18n } from '../../i18n'
 import { cx } from '../../lib/cx'
 import { diffDays, type ISODate } from '../../lib/date'
-import { formatMoney } from '../../lib/money'
 import { Badge, Card, ProgressRing, toneVars } from '../ui'
 import { phaseLabel } from './copy'
 import styles from './TodayHero.module.css'
+import { useTripMoney } from './TripMoneyContext'
 
 export interface TodayHeroProps {
   trip: Trip
@@ -18,7 +18,14 @@ export interface TodayHeroProps {
 
 export function TodayHero({ trip, budget, today }: TodayHeroProps) {
   const { t } = useI18n()
-  const money = (cents: number) => formatMoney(cents, trip.currency)
+  const { money, alt } = useTripMoney()
+  // The headline amount, plus the same value in the other currency when converting.
+  const amount = (cents: number) => (
+    <>
+      <span className={styles.amount}>{money(cents)}</span>
+      {alt(cents) && <span className={styles.converted}>≈ {alt(cents)}</span>}
+    </>
+  )
   const daysUntilStart = diffDays(today, trip.startDate)
   const tone = toneVars(trip.tone)
   const badge = <Badge onHero>{phaseLabel(t, budget, daysUntilStart)}</Badge>
@@ -32,7 +39,7 @@ export function TodayHero({ trip, budget, today }: TodayHeroProps) {
         </div>
         <div className={styles.amountBlock}>
           <span className={styles.caption}>{t.hero.willSpend}</span>
-          <span className={styles.amount}>{money(budget.baseDaily)}</span>
+          {amount(budget.baseDaily)}
           <span className={styles.sub}>{t.hero.perDayFor(budget.totalDays)}</span>
         </div>
       </Card>
@@ -49,7 +56,7 @@ export function TodayHero({ trip, budget, today }: TodayHeroProps) {
         </div>
         <div className={styles.amountBlock}>
           <span className={styles.caption}>{saved ? t.hero.cameBackWith : t.hero.wentOverBy}</span>
-          <span className={styles.amount}>{money(Math.abs(budget.remaining))}</span>
+          {amount(Math.abs(budget.remaining))}
           <span className={styles.sub}>{t.hero.spentOf(money(budget.spent), money(budget.budget))}</span>
         </div>
       </Card>
@@ -75,7 +82,7 @@ export function TodayHero({ trip, budget, today }: TodayHeroProps) {
         </ProgressRing>
         <div className={styles.amountBlock}>
           <span className={styles.caption}>{over ? t.hero.overToday : t.hero.canSpendToday}</span>
-          <span className={styles.amount}>{money(Math.abs(day.balance))}</span>
+          {amount(Math.abs(day.balance))}
           <span className={styles.sub}>{t.hero.spentOfToday(money(day.spent), money(day.allowance))}</span>
         </div>
       </div>

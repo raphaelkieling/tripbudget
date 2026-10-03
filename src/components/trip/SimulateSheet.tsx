@@ -6,10 +6,11 @@ import type { Expense, Trip } from '../../domain/types'
 import { useI18n } from '../../i18n'
 import { cx } from '../../lib/cx'
 import type { ISODate } from '../../lib/date'
-import { currencySymbol, formatMoney, parseMoney } from '../../lib/money'
+import { currencySymbol, parseMoney } from '../../lib/money'
 import { Button, MoneyField, Sheet, TextField, toneVars } from '../ui'
 import type { ExpenseDraft } from './ExpenseFormSheet'
 import styles from './SimulateSheet.module.css'
+import { useTripMoney } from './TripMoneyContext'
 
 export interface SimulateSheetProps {
   open: boolean
@@ -27,6 +28,8 @@ export function SimulateSheet({ open, trip, expenses, today, onClose, onAddAsBil
   const [amountText, setAmountText] = useState('')
   const [description, setDescription] = useState('')
   const amount = parseMoney(amountText)
+  const { toHome } = useTripMoney()
+  const converted = amount ? toHome(amount) : undefined
   const simulation = amount ? simulatePurchase(trip, expenses, today, amount) : undefined
 
   const close = () => {
@@ -68,6 +71,7 @@ export function SimulateSheet({ open, trip, expenses, today, onClose, onAddAsBil
           currencySymbol={currencySymbol(trip.currency)}
           value={amountText}
           onChange={(e) => setAmountText(e.target.value)}
+          hint={converted && `≈ ${converted}`}
           autoFocus
         />
         <TextField
@@ -79,7 +83,7 @@ export function SimulateSheet({ open, trip, expenses, today, onClose, onAddAsBil
         />
 
         {simulation ? (
-          <SimulationResult simulation={simulation} currency={trip.currency} />
+          <SimulationResult simulation={simulation} />
         ) : (
           <p className={styles.hint}>
             <FlaskIcon size={24} weight="duotone" aria-hidden />
@@ -98,9 +102,9 @@ const verdicts: Record<PurchaseVerdict, { icon: Icon; tone?: ToneKey }> = {
   'over-budget': { icon: WarningOctagonIcon },
 }
 
-function SimulationResult({ simulation: s, currency }: { simulation: PurchaseSimulation; currency: string }) {
+function SimulationResult({ simulation: s }: { simulation: PurchaseSimulation }) {
   const { t } = useI18n()
-  const money = (cents: number) => formatMoney(cents, currency)
+  const { money } = useTripMoney()
   const { icon: VerdictIcon, tone } = verdicts[s.verdict]
   const title = t.simulate.verdicts[s.verdict]
   const isActive = s.todayLeftBefore !== undefined

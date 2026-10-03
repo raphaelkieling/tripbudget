@@ -43,6 +43,12 @@
   overflow-wrap: anywhere;
 }
 
+.converted {
+  font-weight: 700;
+  opacity: 0.85;
+  font-variant-numeric: tabular-nums;
+}
+
 .sub {
   font-size: var(--text-sm);
   opacity: 0.85;

@@ -10,6 +10,7 @@ import { cx } from '../../lib/cx'
 import { centsToInput, currencySymbol, formatMoney, parseMoney } from '../../lib/money'
 import { Button, ChoiceGroup, MoneyField, Sheet, Switch, TextField } from '../ui'
 import styles from './ExpenseFormSheet.module.css'
+import { useTripMoney } from './TripMoneyContext'
 
 export interface ExpenseFormSheetProps {
   open: boolean
@@ -87,6 +88,8 @@ function ExpenseForm({ id, trip, budget, expense, draft, onSavingChange, onSaved
   const [submitted, setSubmitted] = useState(false)
 
   const amount = parseMoney(amountText)
+  const { toHome } = useTripMoney()
+  const converted = amount ? toHome(amount) : undefined
   const amountError = !amount ? t.expenseForm.amountRequired : undefined
   const spreadDays = diffDays(date, trip.endDate) + 1
   const canSpread = spreadDays > 1
@@ -123,6 +126,7 @@ function ExpenseForm({ id, trip, budget, expense, draft, onSavingChange, onSaved
         value={amountText}
         onChange={(e) => setAmountText(e.target.value)}
         error={submitted ? amountError : undefined}
+        hint={converted && `≈ ${converted}`}
         autoFocus
       />
 

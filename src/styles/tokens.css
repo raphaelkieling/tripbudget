@@ -122,3 +122,39 @@
 
   color-scheme: dark;
 }
+
+/*
+ * Color palettes (Settings → Theme), on <html data-palette>. Violet is the
+ * default defined above; the others only set a primary color and derive the
+ * tinted surfaces from it. Swatches in src/lib/theme.ts must match.
+ */
+:root[data-palette='ocean'] { --color-primary: #2563eb; }
+:root[data-palette='teal'] { --color-primary: #0e8f9a; }
+:root[data-palette='forest'] { --color-primary: #24884d; }
+:root[data-palette='sunset'] { --color-primary: #e8590c; }
+:root[data-palette='rose'] { --color-primary: #e0317a; }
+:root[data-palette='cherry'] { --color-primary: #d6293e; }
+:root[data-palette='amber'] { --color-primary: #b7791f; }
+:root[data-palette='graphite'] { --color-primary: #4b5563; }
+:root[data-palette='cocoa'] { --color-primary: #8b5e3c; }
+
+:root[data-palette]:not([data-palette='violet']) {
+  --color-primary-strong: color-mix(in srgb, var(--color-primary) 85%, #000);
+  --color-primary-soft: color-mix(in srgb, var(--color-primary) 12%, #fff);
+  --color-bg: color-mix(in srgb, var(--color-primary) 4%, #fffaf6);
+  --color-bg-blob-1: color-mix(in srgb, var(--color-primary) 16%, #fff);
+  --color-bg-blob-2: color-mix(in srgb, var(--color-primary) 9%, #fff);
+  --color-surface-muted: color-mix(in srgb, var(--color-primary) 5%, #fff);
+  --color-border: color-mix(in srgb, var(--color-primary) 12%, #fff);
+  --shadow-primary: 0 12px 24px -10px color-mix(in srgb, var(--color-primary) 65%, transparent);
+}
+
+:root[data-theme='dark'][data-palette]:not([data-palette='violet']) {
+  --color-primary-soft: color-mix(in srgb, var(--color-primary) 30%, #15141c);
+  --color-bg: color-mix(in srgb, var(--color-primary) 10%, #0d0c12);
+  --color-bg-blob-1: color-mix(in srgb, var(--color-primary) 22%, #0d0c12);
+  --color-bg-blob-2: color-mix(in srgb, var(--color-primary) 15%, #0d0c12);
+  --color-surface: color-mix(in srgb, var(--color-primary) 14%, #15141c);
+  --color-surface-muted: color-mix(in srgb, var(--color-primary) 20%, #1b1a23);
+  --color-border: color-mix(in srgb, var(--color-primary) 28%, #1f1e28);
+}

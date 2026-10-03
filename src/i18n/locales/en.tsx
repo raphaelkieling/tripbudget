@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import type { ToneKey, TripIconKey } from '../../domain/appearance'
 import type { CategoryKey } from '../../domain/categories'
 import type { PurchaseVerdict } from '../../domain/simulation'
+import type { Palette } from '../../lib/theme'
 
 /**
  * English is the source dictionary: its shape is the `Messages` type, so the
@@ -28,6 +29,26 @@ export const en = {
     open: 'Settings',
     title: 'Settings',
     language: 'Language',
+    palette: 'Theme',
+    homeCurrency: 'Main currency',
+    homeCurrencyHint: 'Trips in other currencies also show amounts converted to it.',
+    noHomeCurrency: 'None',
+  },
+  palettes: {
+    violet: 'Violet',
+    ocean: 'Ocean',
+    teal: 'Teal',
+    forest: 'Forest',
+    sunset: 'Sunset',
+    rose: 'Rose',
+    cherry: 'Cherry',
+    amber: 'Amber',
+    graphite: 'Graphite',
+    cocoa: 'Cocoa',
+  } satisfies Record<Palette, string>,
+  currency: {
+    label: 'Show amounts in',
+    rate: (from: string, rate: string, to: string, date: string) => `1 ${from} = ${rate} ${to} · ${date}`,
   },
   phase: {
     tomorrow: 'Tomorrow',

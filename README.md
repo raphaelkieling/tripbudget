@@ -27,6 +27,8 @@ Days after today share whatever is left equally. The logic lives in
 - IndexedDB (via `idb`) for local storage, behind a swappable `DataStore` interface
 - `vite-plugin-pwa`: installable and works offline
 - Hash routing, so it runs on GitHub Pages with no server config
+- Exchange rates from the free [currency-api](https://github.com/fawazahmed0/exchange-api)
+  (only when a main currency is set in Settings), cached locally for offline use
 
 ## Scripts
 

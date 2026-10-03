@@ -4,14 +4,15 @@ import type { Expense, Trip } from '../../domain/types'
 import { getIntlLocale, useI18n } from '../../i18n'
 import { diffDays } from '../../lib/date'
 import { cx } from '../../lib/cx'
-import { formatMoney } from '../../lib/money'
 import { IconBubble } from '../ui'
 import styles from './ExpenseRow.module.css'
+import { useTripMoney } from './TripMoneyContext'
 
 const ADJUSTMENT: Category = { icon: ScalesIcon, tone: 'sky' }
 
 export function ExpenseRow({ expense, trip, onClick }: { expense: Expense; trip: Trip; onClick: () => void }) {
   const { t } = useI18n()
+  const { money } = useTripMoney()
   const categoryKey = expense.category in CATEGORIES ? expense.category : 'other'
   const category = expense.adjustment ? ADJUSTMENT : CATEGORIES[categoryKey]
   const categoryLabel = expense.adjustment ? t.balance.name : t.categories[categoryKey]
@@ -29,7 +30,7 @@ export function ExpenseRow({ expense, trip, onClick }: { expense: Expense; trip:
       </span>
       <span className={cx(styles.amount, moneyIn && styles.moneyIn)}>
         {moneyIn ? '+' : '−'}
-        {formatMoney(Math.abs(expense.amount), trip.currency)}
+        {money(Math.abs(expense.amount))}
       </span>
     </button>
   )

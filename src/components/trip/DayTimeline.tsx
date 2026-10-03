@@ -4,11 +4,11 @@ import type { Expense, Trip } from '../../domain/types'
 import { useI18n } from '../../i18n'
 import { cx } from '../../lib/cx'
 import { formatDate } from '../../lib/date'
-import { formatMoney } from '../../lib/money'
 import { Card, ProgressBar, toneVars } from '../ui'
 import styles from './DayTimeline.module.css'
 import { ExpenseRow } from './ExpenseRow'
 import { ShiftBadge } from './ShiftBadge'
+import { useTripMoney } from './TripMoneyContext'
 
 export interface DayTimelineProps {
   trip: Trip
@@ -21,7 +21,7 @@ export function DayTimeline({ trip, budget, onSelectExpense }: DayTimelineProps)
   const { t } = useI18n()
   const started = budget.days.filter((d) => d.status !== 'future').reverse()
   const future = budget.days.filter((d) => d.status === 'future')
-  const money = (cents: number) => formatMoney(cents, trip.currency)
+  const { money } = useTripMoney()
   // While the trip is active, future days show what they get if today's budget
   // is spent exactly, plus how today's spending so far shifts that.
   const expected = budget.expectedDaily
@@ -50,7 +50,7 @@ export function DayTimeline({ trip, budget, onSelectExpense }: DayTimelineProps)
                     <strong>{money(expected ?? day.allowance)}</strong>
                     {shift !== 0 && (
                       <>
-                        <ShiftBadge amount={shift} currency={trip.currency} />
+                        <ShiftBadge amount={shift} />
                         <span>= {money(day.allowance)}</span>
                       </>
                     )}
@@ -67,7 +67,7 @@ export function DayTimeline({ trip, budget, onSelectExpense }: DayTimelineProps)
 
 function DayCard({ day, trip, onSelectExpense }: { day: DayBudget; trip: Trip; onSelectExpense: (e: Expense) => void }) {
   const { t } = useI18n()
-  const money = (cents: number) => formatMoney(cents, trip.currency)
+  const { money } = useTripMoney()
   const isToday = day.status === 'today'
   const date = formatDate(day.date, { weekday: 'long', day: 'numeric', month: 'short' })
 

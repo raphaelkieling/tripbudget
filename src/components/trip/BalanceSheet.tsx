@@ -7,6 +7,7 @@ import { clampDate, todayISO } from '../../lib/date'
 import { centsToInput, currencySymbol, formatMoney, parseMoney } from '../../lib/money'
 import { Button, MoneyField, Sheet, TextField } from '../ui'
 import styles from './ExpenseFormSheet.module.css'
+import { useTripMoney } from './TripMoneyContext'
 
 export interface BalanceSheetProps {
   open: boolean
@@ -64,6 +65,8 @@ function BalanceForm({ id, trip, budget, onSavingChange, onSaved }: BalanceFormP
   const [submitted, setSubmitted] = useState(false)
 
   const actual = parseMoney(amountText)
+  const { toHome } = useTripMoney()
+  const converted = actual ? toHome(actual) : undefined
   // Positive: money left without a bill. Negative: more money than tracked.
   const difference = actual === null ? 0 : budget.remaining - actual
   const error = actual === null ? t.balance.amountRequired : difference === 0 ? t.balance.unchanged : undefined
@@ -99,6 +102,7 @@ function BalanceForm({ id, trip, budget, onSavingChange, onSaved }: BalanceFormP
         value={amountText}
         onChange={(e) => setAmountText(e.target.value)}
         error={submitted ? error : undefined}
+        hint={converted && `≈ ${converted}`}
         autoFocus
       />
 

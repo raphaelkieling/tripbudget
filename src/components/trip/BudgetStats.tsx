@@ -1,22 +1,20 @@
 import { CalendarBlankIcon, PiggyBankIcon, ReceiptIcon, WalletIcon } from '@phosphor-icons/react'
 import type { TripBudget } from '../../domain/budget'
-import type { Trip } from '../../domain/types'
 import { useI18n } from '../../i18n'
-import { formatMoney } from '../../lib/money'
 import { Card, Stat } from '../ui'
 import styles from './BudgetStats.module.css'
 import { ShiftBadge } from './ShiftBadge'
+import { useTripMoney } from './TripMoneyContext'
 
 export interface BudgetStatsProps {
-  trip: Trip
   budget: TripBudget
   /** When set, "Left" becomes a button to correct the remaining budget. */
   onEditRemaining?: () => void
 }
 
-export function BudgetStats({ trip, budget, onEditRemaining }: BudgetStatsProps) {
+export function BudgetStats({ budget, onEditRemaining }: BudgetStatsProps) {
   const { t } = useI18n()
-  const money = (cents: number) => formatMoney(cents, trip.currency)
+  const { money } = useTripMoney()
   // Per-day budget for the days after today (before the trip: every day).
   const nextDaily = budget.phase === 'upcoming' ? budget.baseDaily : budget.expectedDaily
   const shift = budget.expectedDaily !== undefined && budget.nextDaily !== undefined ? budget.nextDaily - budget.expectedDaily : 0
@@ -47,7 +45,7 @@ export function BudgetStats({ trip, budget, onEditRemaining }: BudgetStatsProps)
               </>
             }
             negative={nextDaily < 0}
-            extra={shift !== 0 && <ShiftBadge amount={shift} currency={trip.currency} />}
+            extra={shift !== 0 && <ShiftBadge amount={shift} />}
           />
         ) : (
           <Stat icon={CalendarBlankIcon} tone="sky" label={t.stats.daysLeft} value={`${budget.daysLeft} / ${budget.totalDays}`} />
