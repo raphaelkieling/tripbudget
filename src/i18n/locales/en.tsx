@@ -21,8 +21,9 @@ export const en = {
   },
   units: { days, bills },
   theme: {
-    toDark: 'Switch to dark mode',
-    toLight: 'Switch to light mode',
+    label: 'Appearance',
+    light: 'Light',
+    dark: 'Dark',
   },
   settings: {
     open: 'Settings',

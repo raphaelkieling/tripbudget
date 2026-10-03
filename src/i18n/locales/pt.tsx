@@ -14,8 +14,9 @@ export const pt: Messages = {
   },
   units: { days, bills },
   theme: {
-    toDark: 'Mudar para o modo escuro',
-    toLight: 'Mudar para o modo claro',
+    label: 'Aparência',
+    light: 'Claro',
+    dark: 'Escuro',
   },
   settings: {
     open: 'Configurações',

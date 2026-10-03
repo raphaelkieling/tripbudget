@@ -3,7 +3,6 @@ import type { ReactNode } from 'react'
 import { cx } from '../../lib/cx'
 import styles from './Page.module.css'
 import { SettingsButton } from './SettingsButton'
-import { ThemeToggle } from './ThemeToggle'
 
 export function Page({ children, className }: { children: ReactNode; className?: string }) {
   return <main className={cx(styles.page, className)}>{children}</main>
@@ -16,7 +15,6 @@ export function TopBar({ leading, title, actions }: { leading?: ReactNode; title
       <h1 className={styles.topBarTitle}>{title}</h1>
       <div className={styles.actions}>
         {actions}
-        <ThemeToggle />
         <SettingsButton />
       </div>
     </header>

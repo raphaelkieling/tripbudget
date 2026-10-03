@@ -14,8 +14,9 @@ export const es: Messages = {
   },
   units: { days, bills },
   theme: {
-    toDark: 'Cambiar a modo oscuro',
-    toLight: 'Cambiar a modo claro',
+    label: 'Apariencia',
+    light: 'Claro',
+    dark: 'Oscuro',
   },
   settings: {
     open: 'Ajustes',
@@ -89,7 +90,7 @@ export const es: Messages = {
     budgetGone: (amount) => `Se acabó el presupuesto — vas ${amount} por encima en el viaje`,
   },
   stats: {
-    title: 'Resumen del presupuesto',
+    title: 'Resumen',
     budgetUsed: (percent) => `${percent}% del presupuesto usado`,
     budget: 'Presupuesto',
     spent: 'Gastado',
