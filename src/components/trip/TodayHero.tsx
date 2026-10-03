@@ -3,6 +3,7 @@ import { TRIP_ICONS } from '../../domain/appearance'
 import type { TripBudget } from '../../domain/budget'
 import type { Trip } from '../../domain/types'
 import { useI18n } from '../../i18n'
+import { cx } from '../../lib/cx'
 import { diffDays, type ISODate } from '../../lib/date'
 import { formatMoney } from '../../lib/money'
 import { Badge, Card, ProgressRing, toneVars } from '../ui'
@@ -62,7 +63,7 @@ export function TodayHero({ trip, budget, today }: TodayHeroProps) {
 
   return (
     <Card variant="hero" padding="lg" className={styles.hero} style={tone}>
-      <div className={styles.top}>
+      <div className={cx(styles.top, styles.desktopOnly)}>
         <TripIcon size={32} weight="duotone" aria-hidden />
         {badge}
       </div>

@@ -10,6 +10,13 @@
   gap: var(--space-3);
 }
 
+/* Phones: the trip icon and "Day x of y" badge only take room from the amount. */
+@media (max-width: 639px) {
+  .desktopOnly {
+    display: none;
+  }
+}
+
 .main {
   display: flex;
   align-items: center;
