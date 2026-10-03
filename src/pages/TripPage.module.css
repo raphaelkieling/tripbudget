@@ -1,12 +1,12 @@
 .layout {
   display: grid;
-  gap: var(--space-5);
+  gap: var(--space-4);
   align-items: start;
 }
 
 .side {
   display: grid;
-  gap: var(--space-5);
+  gap: var(--space-4);
 }
 
 .dates {

@@ -97,7 +97,7 @@ export const pt: Messages = {
     ringLabel: 'Orçamento de hoje usado',
     used: 'usado',
     overToday: 'Passou do limite de hoje em',
-    canSpendToday: 'Você ainda pode gastar hoje',
+    canSpendToday: 'Você ainda tem hoje',
     spentOfToday: (spent, total) => `${spent} de ${total} gastos`,
     budgetGone: (amount) => `O orçamento acabou — você está ${amount} acima na viagem`,
   },

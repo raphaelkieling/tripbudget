@@ -15,8 +15,8 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  min-height: 56px;
-  margin-bottom: var(--space-4);
+  min-height: 48px;
+  margin-bottom: var(--space-3);
 }
 
 .topBarTitle {
@@ -36,7 +36,7 @@
 .section {
   display: grid;
   gap: var(--space-3);
-  margin-top: var(--space-8);
+  margin-top: var(--space-6);
 }
 
 .sectionTitle {

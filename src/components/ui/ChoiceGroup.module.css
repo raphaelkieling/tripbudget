@@ -63,7 +63,7 @@
 
 /* chip: icon + label pill */
 .chip .face {
-  height: 42px;
+  height: 38px;
   padding: 0 var(--space-4) 0 var(--space-3);
   border-radius: var(--radius-pill);
   font-size: var(--text-sm);
@@ -72,7 +72,7 @@
 /* tile: square icon button, label hidden */
 .tile .face {
   width: 52px;
-  height: 52px;
+  height: 46px;
   justify-content: center;
   border-radius: var(--radius-md);
 }

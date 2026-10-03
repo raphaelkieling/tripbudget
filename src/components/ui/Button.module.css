@@ -25,13 +25,13 @@
   cursor: not-allowed;
 }
 
-.sm { height: 36px; padding: 0 var(--space-4); font-size: var(--text-sm); }
-.md { height: 46px; padding: 0 var(--space-5); font-size: var(--text-md); }
-.lg { height: 56px; padding: 0 var(--space-6); font-size: var(--text-lg); }
+.sm { height: 34px; padding: 0 var(--space-4); font-size: var(--text-sm); }
+.md { height: 42px; padding: 0 var(--space-5); font-size: var(--text-md); }
+.lg { height: 50px; padding: 0 var(--space-5); font-size: var(--text-lg); }
 
-.iconOnly.sm { width: 36px; padding: 0; }
-.iconOnly.md { width: 46px; padding: 0; }
-.iconOnly.lg { width: 56px; padding: 0; }
+.iconOnly.sm { width: 34px; padding: 0; }
+.iconOnly.md { width: 42px; padding: 0; }
+.iconOnly.lg { width: 50px; padding: 0; }
 
 .block { width: 100%; }
 

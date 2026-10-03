@@ -76,7 +76,7 @@ export function TodayHero({ trip, budget, today }: TodayHeroProps) {
       </div>
 
       <div className={styles.main}>
-        <ProgressRing value={usedRatio} size={112} stroke={12} color="#fff" trackColor="rgb(255 255 255 / 0.25)" label={t.hero.ringLabel}>
+        <ProgressRing value={usedRatio} size={96} stroke={10} color="#fff" trackColor="rgb(255 255 255 / 0.25)" label={t.hero.ringLabel}>
           <span className={styles.ringLabel}>{Math.round(Math.min(usedRatio, 9.99) * 100)}%</span>
           <span className={styles.ringCaption}>{t.hero.used}</span>
         </ProgressRing>

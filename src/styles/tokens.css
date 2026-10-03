@@ -8,14 +8,14 @@
   --font-display: 'Fredoka Variable', 'Nunito Variable', system-ui, sans-serif;
   --font-body: 'Nunito Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-md: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.375rem;
-  --text-2xl: 1.75rem;
-  --text-3xl: 2.25rem;
-  --text-hero: clamp(2.5rem, 9vw, 3.5rem);
+  --text-xs: 0.6875rem;
+  --text-sm: 0.8125rem;
+  --text-md: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.1875rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-hero: clamp(2.125rem, 8vw, 2.875rem);
 
   /* Spacing (4px grid) */
   --space-1: 0.25rem;
@@ -139,22 +139,32 @@
 :root[data-palette='cocoa'] { --color-primary: #8b5e3c; }
 
 :root[data-palette]:not([data-palette='violet']) {
-  --color-primary-strong: color-mix(in srgb, var(--color-primary) 85%, #000);
-  --color-primary-soft: color-mix(in srgb, var(--color-primary) 12%, #fff);
-  --color-bg: color-mix(in srgb, var(--color-primary) 4%, #fffaf6);
-  --color-bg-blob-1: color-mix(in srgb, var(--color-primary) 16%, #fff);
-  --color-bg-blob-2: color-mix(in srgb, var(--color-primary) 9%, #fff);
-  --color-surface-muted: color-mix(in srgb, var(--color-primary) 5%, #fff);
-  --color-border: color-mix(in srgb, var(--color-primary) 12%, #fff);
+  --color-primary-strong: color-mix(in srgb, var(--color-primary) 82%, #000);
+  --color-primary-soft: color-mix(in srgb, var(--color-primary) 16%, #fff);
+  --color-bg: color-mix(in srgb, var(--color-primary) 9%, #fff);
+  --color-bg-blob-1: color-mix(in srgb, var(--color-primary) 30%, #fff);
+  --color-bg-blob-2: color-mix(in srgb, var(--color-primary) 20%, #fff);
+  --color-surface: color-mix(in srgb, var(--color-primary) 2%, #fff);
+  --color-surface-muted: color-mix(in srgb, var(--color-primary) 9%, #fff);
+  --color-border: color-mix(in srgb, var(--color-primary) 20%, #fff);
+  --color-ink: color-mix(in srgb, var(--color-primary) 30%, #14121c);
+  --color-ink-soft: color-mix(in srgb, var(--color-primary) 35%, #62606e);
+  --color-ink-faint: color-mix(in srgb, var(--color-primary) 25%, #a19fab);
   --shadow-primary: 0 12px 24px -10px color-mix(in srgb, var(--color-primary) 65%, transparent);
+  /* "violet" is the app's default accent tone (icons, past days, badges): follow the theme. */
+  --tone-violet: var(--color-primary);
+  --tone-violet-soft: var(--color-primary-soft);
 }
 
 :root[data-theme='dark'][data-palette]:not([data-palette='violet']) {
-  --color-primary-soft: color-mix(in srgb, var(--color-primary) 30%, #15141c);
-  --color-bg: color-mix(in srgb, var(--color-primary) 10%, #0d0c12);
-  --color-bg-blob-1: color-mix(in srgb, var(--color-primary) 22%, #0d0c12);
-  --color-bg-blob-2: color-mix(in srgb, var(--color-primary) 15%, #0d0c12);
-  --color-surface: color-mix(in srgb, var(--color-primary) 14%, #15141c);
-  --color-surface-muted: color-mix(in srgb, var(--color-primary) 20%, #1b1a23);
-  --color-border: color-mix(in srgb, var(--color-primary) 28%, #1f1e28);
+  --color-primary-soft: color-mix(in srgb, var(--color-primary) 34%, #14131a);
+  --color-bg: color-mix(in srgb, var(--color-primary) 16%, #0b0a10);
+  --color-bg-blob-1: color-mix(in srgb, var(--color-primary) 36%, #0b0a10);
+  --color-bg-blob-2: color-mix(in srgb, var(--color-primary) 26%, #0b0a10);
+  --color-surface: color-mix(in srgb, var(--color-primary) 18%, #14131a);
+  --color-surface-muted: color-mix(in srgb, var(--color-primary) 26%, #191820);
+  --color-border: color-mix(in srgb, var(--color-primary) 38%, #1d1c25);
+  --color-ink: color-mix(in srgb, var(--color-primary) 8%, #f6f5fa);
+  --color-ink-soft: color-mix(in srgb, var(--color-primary) 25%, #c4c3cf);
+  --color-ink-faint: color-mix(in srgb, var(--color-primary) 25%, #85848f);
 }

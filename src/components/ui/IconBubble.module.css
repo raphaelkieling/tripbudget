@@ -6,7 +6,7 @@
   color: var(--tone);
 }
 
-.sm { width: 36px; height: 36px; border-radius: 12px; }
-.md { width: 46px; height: 46px; border-radius: 15px; }
-.lg { width: 64px; height: 64px; border-radius: 22px; }
+.sm { width: 32px; height: 32px; border-radius: 12px; }
+.md { width: 40px; height: 40px; border-radius: 15px; }
+.lg { width: 52px; height: 52px; border-radius: 22px; }
 .xl { width: 88px; height: 88px; border-radius: 30px; }
