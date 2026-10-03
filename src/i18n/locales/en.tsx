@@ -87,17 +87,15 @@ export const en = {
     canSpendToday: 'You can still spend today',
     spentOfToday: (spent: string, total: string) => `${spent} of ${total} spent`,
     budgetGone: (amount: string) => `Budget is gone — you're ${amount} over for the trip`,
-    ifYouStop: (n: number, amount: ReactNode) => (
-      <>
-        If you stop now, the next {days(n)} get {amount}/day
-      </>
-    ),
   },
   stats: {
     budget: 'Budget',
     spent: 'Spent',
     left: 'Left',
     daysLeft: 'Days left',
+    nextDays: 'Next days',
+    perDay: '/day',
+    editLeft: 'Update what’s left',
   },
   timeline: {
     yourDays: 'Your days',
@@ -193,6 +191,20 @@ export const en = {
     shopping: 'Shopping',
     other: 'Other',
   } satisfies Record<CategoryKey, string>,
+  balance: {
+    title: 'Update what’s left',
+    amountLabel: 'How much do you have left?',
+    amountRequired: 'Enter how much you have left',
+    unchanged: 'That’s already what’s left',
+    went: (amount: ReactNode) => <>{amount} went out without a bill — it’ll be logged as an adjustment</>,
+    came: (amount: ReactNode) => <>{amount} more than expected — it’ll be added back as an adjustment</>,
+    day: 'Day',
+    dayHint: 'The adjustment is split from this day to the end of the trip',
+    save: 'Update',
+    name: 'Balance adjustment',
+    removeTitle: 'Remove this adjustment?',
+    removeMessage: (amount: string) => `What’s left goes back to ${amount}.`,
+  },
   simulate: {
     title: 'What if I buy it?',
     addAsBill: 'Add as bill',

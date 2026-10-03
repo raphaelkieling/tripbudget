@@ -8,6 +8,7 @@ import { formatMoney } from '../../lib/money'
 import { Card, ProgressBar, toneVars } from '../ui'
 import styles from './DayTimeline.module.css'
 import { ExpenseRow } from './ExpenseRow'
+import { ShiftBadge } from './ShiftBadge'
 
 export interface DayTimelineProps {
   trip: Trip
@@ -49,10 +50,7 @@ export function DayTimeline({ trip, budget, onSelectExpense }: DayTimelineProps)
                     <strong>{money(expected ?? day.allowance)}</strong>
                     {shift !== 0 && (
                       <>
-                        <span className={cx(styles.shift, shift < 0 && styles.shiftDown)}>
-                          {shift > 0 ? '+' : '−'}
-                          {money(Math.abs(shift))}
-                        </span>
+                        <ShiftBadge amount={shift} currency={trip.currency} />
                         <span>= {money(day.allowance)}</span>
                       </>
                     )}

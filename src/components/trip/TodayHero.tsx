@@ -1,9 +1,8 @@
-import { ConfettiIcon, HourglassIcon, TrendDownIcon, TrendUpIcon, WarningIcon } from '@phosphor-icons/react'
+import { ConfettiIcon, HourglassIcon, WarningIcon } from '@phosphor-icons/react'
 import { TRIP_ICONS } from '../../domain/appearance'
 import type { TripBudget } from '../../domain/budget'
 import type { Trip } from '../../domain/types'
 import { useI18n } from '../../i18n'
-import { cx } from '../../lib/cx'
 import { diffDays, type ISODate } from '../../lib/date'
 import { formatMoney } from '../../lib/money'
 import { Badge, Card, ProgressRing, toneVars } from '../ui'
@@ -80,20 +79,10 @@ export function TodayHero({ trip, budget, today }: TodayHeroProps) {
         </div>
       </div>
 
-      {budget.nextDaily !== undefined && (
-        <div className={cx(styles.footer, budget.nextDaily < 0 && styles.over)}>
-          {budget.nextDaily < 0 ? (
-            <WarningIcon size={22} weight="fill" aria-hidden />
-          ) : over ? (
-            <TrendDownIcon size={22} weight="bold" aria-hidden />
-          ) : (
-            <TrendUpIcon size={22} weight="bold" aria-hidden />
-          )}
-          <span>
-            {budget.nextDaily < 0
-              ? t.hero.budgetGone(money(-budget.remaining))
-              : t.hero.ifYouStop(budget.daysLeft - 1, <strong>{money(budget.nextDaily)}</strong>)}
-          </span>
+      {budget.nextDaily !== undefined && budget.nextDaily < 0 && (
+        <div className={styles.footer}>
+          <WarningIcon size={22} weight="fill" aria-hidden />
+          <span>{t.hero.budgetGone(money(-budget.remaining))}</span>
         </div>
       )}
     </Card>

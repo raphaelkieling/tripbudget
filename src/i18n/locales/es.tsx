@@ -80,17 +80,15 @@ export const es: Messages = {
     canSpendToday: 'Todavía puedes gastar hoy',
     spentOfToday: (spent, total) => `${spent} de ${total} gastado`,
     budgetGone: (amount) => `Se acabó el presupuesto — vas ${amount} por encima en el viaje`,
-    ifYouStop: (n: number, amount: ReactNode) => (
-      <>
-        Si paras ahora, los próximos {days(n)} tendrán {amount}/día
-      </>
-    ),
   },
   stats: {
     budget: 'Presupuesto',
     spent: 'Gastado',
     left: 'Queda',
     daysLeft: 'Días restantes',
+    nextDays: 'Próximos días',
+    perDay: '/día',
+    editLeft: 'Actualizar lo que queda',
   },
   timeline: {
     yourDays: 'Tus días',
@@ -185,6 +183,20 @@ export const es: Messages = {
     fun: 'Ocio',
     shopping: 'Compras',
     other: 'Otros',
+  },
+  balance: {
+    title: 'Actualizar saldo',
+    amountLabel: '¿Cuánto te queda?',
+    amountRequired: 'Indica cuánto te queda',
+    unchanged: 'Eso ya es lo que queda',
+    went: (amount: ReactNode) => <>{amount} salieron sin registrar — se añadirá como un ajuste de saldo</>,
+    came: (amount: ReactNode) => <>{amount} más de lo esperado — se añadirá como un ajuste de saldo</>,
+    day: 'Día',
+    dayHint: 'El ajuste se reparte desde este día hasta el final del viaje',
+    save: 'Actualizar',
+    name: 'Ajuste de saldo',
+    removeTitle: '¿Eliminar este ajuste?',
+    removeMessage: (amount) => `Lo que queda vuelve a ${amount}.`,
   },
   simulate: {
     title: '¿Y si lo compro?',

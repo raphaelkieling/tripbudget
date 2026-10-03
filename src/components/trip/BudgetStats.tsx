@@ -5,17 +5,53 @@ import { useI18n } from '../../i18n'
 import { formatMoney } from '../../lib/money'
 import { Card, Stat } from '../ui'
 import styles from './BudgetStats.module.css'
+import { ShiftBadge } from './ShiftBadge'
 
-export function BudgetStats({ trip, budget }: { trip: Trip; budget: TripBudget }) {
+export interface BudgetStatsProps {
+  trip: Trip
+  budget: TripBudget
+  /** When set, "Left" becomes a button to correct the remaining budget. */
+  onEditRemaining?: () => void
+}
+
+export function BudgetStats({ trip, budget, onEditRemaining }: BudgetStatsProps) {
   const { t } = useI18n()
   const money = (cents: number) => formatMoney(cents, trip.currency)
+  // Per-day budget for the days after today (before the trip: every day).
+  const nextDaily = budget.phase === 'upcoming' ? budget.baseDaily : budget.expectedDaily
+  const shift = budget.expectedDaily !== undefined && budget.nextDaily !== undefined ? budget.nextDaily - budget.expectedDaily : 0
+
   return (
     <Card padding="lg">
       <div className={styles.grid}>
         <Stat icon={WalletIcon} tone="violet" label={t.stats.budget} value={money(budget.budget)} />
         <Stat icon={ReceiptIcon} tone="coral" label={t.stats.spent} value={money(budget.spent)} />
-        <Stat icon={PiggyBankIcon} tone="mint" label={t.stats.left} value={money(budget.remaining)} negative={budget.remaining < 0} />
-        <Stat icon={CalendarBlankIcon} tone="sky" label={t.stats.daysLeft} value={`${budget.daysLeft} / ${budget.totalDays}`} />
+        <Stat
+          icon={PiggyBankIcon}
+          tone="mint"
+          label={t.stats.left}
+          value={money(budget.remaining)}
+          negative={budget.remaining < 0}
+          onEdit={onEditRemaining}
+          editLabel={t.stats.editLeft}
+        />
+        {nextDaily !== undefined ? (
+          <Stat
+            icon={CalendarBlankIcon}
+            tone="sky"
+            label={t.stats.nextDays}
+            value={
+              <>
+                {money(nextDaily)}
+                <small className={styles.unit}>{t.stats.perDay}</small>
+              </>
+            }
+            negative={nextDaily < 0}
+            extra={shift !== 0 && <ShiftBadge amount={shift} currency={trip.currency} />}
+          />
+        ) : (
+          <Stat icon={CalendarBlankIcon} tone="sky" label={t.stats.daysLeft} value={`${budget.daysLeft} / ${budget.totalDays}`} />
+        )}
       </div>
     </Card>
   )

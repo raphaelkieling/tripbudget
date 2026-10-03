@@ -21,12 +21,18 @@ export type TripInput = Omit<Trip, 'id' | 'createdAt' | 'updatedAt'>
 export interface Expense {
   id: string
   tripId: string
+  /** Money out. Only adjustments can be negative (money that came back in). */
   amount: Cents
   description: string
   category: CategoryKey
   date: ISODate
   /** Big purchase split equally over every day from `date` to the end of the trip. */
   spread?: boolean
+  /**
+   * Correction logged from "update what's left": the difference between the
+   * tracked and the real remaining budget. Always spread.
+   */
+  adjustment?: boolean
   createdAt: string
 }
 

@@ -41,6 +41,10 @@
   font-variant-numeric: tabular-nums;
 }
 
+.moneyIn {
+  color: var(--color-success);
+}
+
 .spread {
   color: var(--color-primary);
 }

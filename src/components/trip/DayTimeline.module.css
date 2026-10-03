@@ -144,18 +144,3 @@
 .upcomingMoney strong {
   color: var(--color-ink);
 }
-
-/* How today's spending so far moves each future day: up (saved) or down (over). */
-.shift {
-  padding: 2px var(--space-2);
-  border-radius: var(--radius-pill);
-  background: var(--color-success-soft);
-  color: var(--color-success);
-  font-size: var(--text-xs);
-  font-weight: 700;
-}
-
-.shiftDown {
-  background: var(--color-danger-soft);
-  color: var(--color-danger);
-}

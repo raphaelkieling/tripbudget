@@ -1,13 +1,14 @@
 import { ArrowLeftIcon, FlaskIcon, ListChecksIcon, MagnifyingGlassIcon, PencilSimpleIcon, PlusIcon, TrashIcon } from '@phosphor-icons/react'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
-import { BudgetStats, DayTimeline, ExpenseFormSheet, SimulateSheet, TodayHero, TripFormSheet, type ExpenseDraft } from '../components/trip'
+import { BalanceSheet, BudgetStats, DayTimeline, ExpenseFormSheet, SimulateSheet, TodayHero, TripFormSheet, type ExpenseDraft } from '../components/trip'
 import { Button, ButtonLink, ConfirmSheet, EmptyState, Fab, Page, TopBar } from '../components/ui'
 import { useDataStore } from '../data/DataStoreContext'
 import { useExpenses, useToday, useTrip, useTripBudget } from '../data/hooks'
 import type { Expense } from '../domain/types'
 import { useI18n } from '../i18n'
 import { diffDays, formatDateRange } from '../lib/date'
+import { formatMoney } from '../lib/money'
 import styles from './TripPage.module.css'
 
 type SheetState =
@@ -15,6 +16,8 @@ type SheetState =
   | { kind: 'edit-trip' }
   | { kind: 'delete-trip' }
   | { kind: 'simulate' }
+  | { kind: 'balance' }
+  | { kind: 'remove-adjustment'; expense: Expense }
   | { kind: 'expense'; expense?: Expense; draft?: ExpenseDraft }
 
 export function TripPage() {
@@ -83,7 +86,7 @@ export function TripPage() {
       <div className={styles.layout}>
         <div className={styles.side}>
           <TodayHero trip={current} budget={budget} today={today} />
-          <BudgetStats trip={current} budget={budget} />
+          <BudgetStats trip={current} budget={budget} onEditRemaining={canAdd ? () => setSheet({ kind: 'balance' }) : undefined} />
           <div className={styles.actionsInline}>
             {canSimulate && (
               <Button variant="secondary" size="lg" icon={FlaskIcon} onClick={openSimulate}>
@@ -101,7 +104,7 @@ export function TripPage() {
             <ListChecksIcon size={22} weight="duotone" aria-hidden />
             {t.trip.dayByDay}
           </h2>
-          <DayTimeline trip={current} budget={budget} onSelectExpense={(expense) => setSheet({ kind: 'expense', expense })} />
+          <DayTimeline trip={current} budget={budget} onSelectExpense={(expense) => setSheet(expense.adjustment ? { kind: 'remove-adjustment', expense } : { kind: 'expense', expense })} />
         </div>
       </div>
 
@@ -133,6 +136,17 @@ export function TripPage() {
         today={today}
         onClose={close}
         onAddAsBill={canAdd ? (draft) => setSheet({ kind: 'expense', draft }) : undefined}
+      />
+      <BalanceSheet open={sheet.kind === 'balance'} trip={current} budget={budget} onClose={close} />
+      <ConfirmSheet
+        open={sheet.kind === 'remove-adjustment'}
+        title={t.balance.removeTitle}
+        message={sheet.kind === 'remove-adjustment' && t.balance.removeMessage(formatMoney(budget.remaining + sheet.expense.amount, current.currency))}
+        onClose={close}
+        onConfirm={async () => {
+          if (sheet.kind === 'remove-adjustment') await store.expenses.remove(sheet.expense.id)
+          close()
+        }}
       />
       <TripFormSheet open={sheet.kind === 'edit-trip'} trip={current} onClose={close} />
       <ConfirmSheet

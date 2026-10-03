@@ -57,6 +57,17 @@ describe('computeTripBudget', () => {
     expect(b.expectedDaily).toBe(9_000)
   })
 
+  it('applies balance adjustments like spread bills, in both directions', () => {
+    const adjust = (amount: number): Expense => ({ ...bill('2026-05-02', amount, true), adjustment: true })
+    // 500 over 5 days; on day 2 the real balance is 80 lower, then 40 higher.
+    const lower = computeTripBudget(trip, [adjust(8_000)], '2026-05-02')
+    expect(lower.remaining).toBe(42_000)
+    expect(lower.today?.allowance).toBe(10_500) // (500 − 80) / 4
+    const higher = computeTripBudget(trip, [adjust(-4_000)], '2026-05-02')
+    expect(higher.remaining).toBe(54_000)
+    expect(higher.today?.allowance).toBe(13_500) // (500 + 40) / 4
+  })
+
   it('has no projection for the next days on the last day', () => {
     const b = computeTripBudget(trip, [], '2026-05-05')
     expect(b.nextDaily).toBeUndefined()
